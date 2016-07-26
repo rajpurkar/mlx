@@ -33,8 +33,8 @@ default_layout: post
 titlecase: false # Transform title into titlecase
 external_link: false # Open external links in new tab
 filename_case: 0
-render_drafts: false
-post_asset_folder: false
+render_drafts: true
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
@@ -64,6 +64,11 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: hexo-theme
+
+# add caption for iamges
+image_caption:
+  enable: true #false to disable
+  class_name: #if you wanna customize the style for the caption,you can assign a class name, default is 'image-caption'
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
