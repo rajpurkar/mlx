@@ -76,3 +76,6 @@ deploy:
   type: git
   repo: git@github.com:rajpurkar/mlx
   branch: gh-pages
+
+plugins:
+  hexo-soundcloud
