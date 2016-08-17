@@ -1,14 +1,41 @@
 ---
-title: Transcribing Musical Melodies With Neural Networks
+title: Transcribing Musical Melodies With Neural Networks for Secure Audio Pairing
 subtitle:
-author: Pranav Rajpurkar
+author: Pranav Rajpurkar and Brad Girardeau
 ---
 
-A few months back, one of my friends was wrestling with the problem of algorithmically transcribing musical melodies. He had attempted to build a rule based solution, but was disappointed by the performance of his system in the presence of noise. He had started thinking about potential machine learning solutions to the problem, and wondered how they would fare in noisy environments.
+Most of us have used Bluetooth at some point in our lives. We are familiar with the routine of "pairing" two devices, like a phone and car, which finishes with entering a PIN or comparing some numbers. The goal of this last step, of course, is _security_. You don't want someone next to you to be able to eavesdrop on you or trick you into connecting to them to steal your data. However this security step is often annoying (typing a PIN) or easily skippable (comparing numbers). This problem promises to become increasingly common as new applications like smart cars and connected homes continue linking things in the physical world together.
 
-I was intrigued by the problem of transcribing musical melodies, and also excited to see how well machine learning would do. In what follows, I will attempt to explain my investigation and thought process navigating a [solution](https://github.com/rajpurkar/seqmodels).
+We set out to create a better way of securing device pairing in the physical world. Instead of typing a PIN or comparing numbers, a simple audio melody is played and automatically recognized. An attacker would only be able to subvert the pairing by playing their own melody, which would be easily noticed. Otherwise we do not need to do anything.
 
-The melody below consists of 8 notes played in sequence in a noisy environment -- can you identify any of them? Our system at completion gets all of them right.
+So how does this work? How can entering a PIN, comparing numbers, or recognizing an audio sequence make things secure? Let's first learn about secure device pairing in general, before delving into the details of how we use audio to improve the process.
+
+# Secure Device Pairing
+Like many secure communication discussions, we start with our characters [Alice and Bob](https://en.wikipedia.org/wiki/Alice_and_Bob). In this case, Alice has a device she would like to pair with a device of Bob's that she hasn't connected to before. At the end of the pairing, the goal is for Alice's device and Bob's device to share a secret key that only they know, even if there are attackers who listen or interfere. The devices would then be securely paired because they can use the secret key to encrypt all of their communication so that no one else will be able to eavesdrop on or tamper with them.
+
+There are two types of attackers that Alice and Bob need to be concerned with: a passive attacker we'll call Eve and an active attacker Mallory. Eve, as a passive attacker, can only eavesdrop on, not tamper with the communication nor send messages herself. If Alice and Bob only need to defend against Eve, they can use the [Diffie-Hellman protocol](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) to safely create a shared secret key. The challenge is when Mallory, an active attacker, is involved. While Mallory can't subvert the Diffie-Hellman key exchange directly, Mallory can insert herself between Alice's device and Bob's device, tricking Alice's device and Bob's device into separately pairing with Mallory's device. Both Alice and Bob will now think they share a secret key with each other, while in reality Alice and Mallory share one key, while Bob and Mallory share a different key. This allows Mallory to eavesdrop on or impersonate Alice and Bob.
+
+To prevent Mallory's attack, we need to add some way for Alice and Bob to be sure they are connecting to each other, not an attacker, for the Diffie-Hellman key exchange. There are several ways to do this using a third party that Alice and Bob both trust to verify each other's identity. However, for devices and protocols like Bluetooth, finding a single third party everyone will trust is impractical. This is where [Short Authenticated Strings](https://www.iacr.org/archive/crypto2005/36210303/36210303.pdf) can help.
+
+## Short Authenticated Strings (SAS)
+
+A short authenticated string uses the idea that certain channels are naturally "authenticated" even if they are not secret. This means we know we are communicating with another party because an attacker can't tamper with messages across this channel or will be detected if they do. For example, if Alice and Bob have a face to face conversation, they know they are communicating to the right person and could tell (and ignore) if Mallory tried to shout a different message at them. Even over the phone, Alice and Bob might be able to recognize each other's voice, so they can "authenticate" information exchanged during the conversation.
+
+Going back to the Bluetooth pairing example at the beginning, entering a PIN and comparing numbers also form authenticated channels. Alice sees the PIN on Bob's device and types it into her device or compares it with a PIN on her device; an attacker presumably cannot tamper with Alice's vision, so these channels allow short strings like the PIN to be authenticated.
+
+Once we have an authenticated channel, we can use it to authenticate Alice and Bob's Diffie-Hellman key exchange. All they need to do is ensure that they have agreed on the same key, since Mallory's attacks will cause them to have different keys. One way to do this is by sending a hash, or summary, of the key over the authenticated channel. However, the hash in this case is too long for this to be practical; no one will compare or type 100 characters just to pair their phone with a car or computer. We need _short_ authenticated strings, and it turns out there is a protocol (linked above) that lets us authenticate a message using much shorter authenticated strings.
+
+However typing a PIN or comparing numbers still require a lot of active human intervention. Instead, we can use audio as a authenticated channel and automate the process. If we encode the short authenticated string as melodic notes, Alice's device can simply the play the sound and Bob's device can recognize it. If an attacker tries to interfere with the audio channel, Alice or Bob will hear it, so the audio channel is naturally authenticated.
+
+Putting the steps together, two users can pair devices securely by doing a standard key exchange over a normal communications channel like Bluetooth, then authenticate the shared key for the connection with a Short Authenticated String protocol. The Short Authenticated String protocol involves each device playing a short audio sequence, which the other device must recognize. No intervention beyond passively listening is required by the users, as the only attack they need to detect is if they hear a third unexpected device playing audio. From the user's perspective, this is an easy and seamless process.
+
+# Using Audio
+
+In order to make this system work, we needed to be able to reliably recognize short sequences of audio notes in the real world. In other words, the problem of algorithmically transcribing musical melodies. We first attempted to build a rule based solution, but were disappointed by its performance in the presence of noise. We instead started thinking about potential machine learning solutions to the problem and wondered how they would fare in noisy environments.
+
+In what follows, we will attempt to explain the investigation and thought process of navigating to a [solution](https://github.com/rajpurkar/seqmodels).
+
+Listen to the melody below, which consists of 8 notes played in sequence in a noisy environment -- can you identify any of them? Our system at completion gets all of them right.
 
 
 {% soundcloud https://soundcloud.com/pranav-rajpurkar/sample-musical-melody  default %}
