@@ -1,7 +1,7 @@
 ---
 title: Recognizing Musical Melodies With Neural Networks for Secure Audio Pairing
-subtitle:
-author: Pranav Rajpurkar and Brad Girardeau
+subtitle: Project Advisor - Professor Dan Boneh
+author: Pranav Rajpurkar, Brad Girardeau 
 ---
 
 In this post, we share work that tackles a problem in the domain of security with machine learning. We address *secure device pairing*, a task in which we are trying to establish a secure connection between two devices wirelessly. We establish a protocol in which the devices can be paired securely if each device can recognize a melody played by the other. To enable this application, we build a machine learning system that can perform melody recognition. 
