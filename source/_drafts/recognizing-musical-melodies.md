@@ -11,7 +11,7 @@ I was intrigued by the problem of transcribing musical melodies, and also excite
 The melody below consists of 8 notes played in sequence in a noisy environment -- can you identify any of them? Our system at completion gets all of them right.
 
 
-{% soundcloud https://soundcloud.com/pranav-rajpurkar/sample-musical-melody  default %}
+[//]: # ({% soundcloud https://soundcloud.com/pranav-rajpurkar/sample-musical-melody  default %})
 
 
 # Exploring Approaches to Melody Transcription
@@ -58,3 +58,12 @@ The temporal properties of audio make it inherently sequential. Recurrent Neural
 {% asset_img rnn-musical.png The recurrent network takes in a sample at each time step as input (red), and at the last time step, produces a probability distribution over the possible notes as output (blue). In the hidden (green) layer, the network is propagating information through timesteps. %}
 
 (See [Alex Graves' thesis](https://www.cs.toronto.edu/~graves/preprint.pdf) and [Andrej Karpathy's post](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) for some really cool RNN work)
+
+### Postprocessing Sliding Window Outputs To Label Sequences
+The model described above outputs a probability distribution over the possible classes for each segment of the sliding window. We seek to combine the outputs of each of these segments to get the melody.
+
+{% asset_img rnn-probabilities.png Sliding window outputs over time show changing probabilities of classes across time. %}
+{% asset_img post-nms.png Non-Maximum Suppression keeps the local maxima, which can be used to recover the underlying melody [Note A, Note B] %}
+
+To recover the underlying melody from sliding window outputs, we are going to use a variant of Non-Maximum Suppression (NMS). The basic idea of NMS is to look at each point in the sequence, and suppress neighbouring points that are smaller to zero. At the end of the NMS run, only the local maxima remain. Maxima separated by the silence / noise class can then be read off as the notes constituting the melody.
+
