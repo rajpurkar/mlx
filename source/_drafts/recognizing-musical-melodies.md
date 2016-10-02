@@ -1,10 +1,14 @@
 ---
 title: Recognizing Musical Melodies With Neural Networks for Secure Audio Pairing
-subtitle: Project Advisor - Professor Dan Boneh
+subtitle: Machine Learning Applied to Computer Security
 author: Pranav Rajpurkar, Brad Girardeau 
+tags: 
+  - Experiment
+  - Security
+  - RNN
 ---
 
-In this post, we share work that tackles a problem in the domain of security with machine learning. We address *secure device pairing*, a task in which we are trying to establish a secure connection between two devices wirelessly. We establish a protocol in which the devices can be paired securely if each device can recognize a melody played by the other. To enable this application, we build a machine learning system that can perform melody recognition. 
+In this post, we share our work at the intersection of machine learning and security. We look at *secure device pairing*, a task in which we are trying to establish a secure connection between two devices wirelessly. We establish a protocol in which the devices can be paired securely if each device can recognize a melody played by the other. To enable this application, we build a machine learning system that can perform melody recognition. 
 
 We begin this post with a focus on the security application: describing the secure device pairing problem, highlighting drawbacks of existing solutions, and finally demonstrating how an audio-based pairing approach can be used to overcome them. In the second half of the post, we focus on the machine learning task of melody recognition: sharing our experience exploring different approaches to the task, and detailing a solution that performs well even in noisy environments.
 
@@ -90,13 +94,17 @@ The temporal properties of audio make it inherently sequential. Recurrent Neural
 
 To an RNN, we feed in the input one audio sample at a time until we've exhausted all of the samples in the audio segment. Typically, when one uses an RNN network, the specific variant of recurrent network used is an LSTM, which is better at handling longer sequences of input. It is also typical to stack multiple hidden (green) LSTM layers on top of each other to form a *deep network*, so that each subsequent layer learns a slightly more abstract representation of the data, which turns out to be useful in improving the accuracy of the classification. Once all of the samples in the segment are fed into the network, the network outputs scores for each note, which are normalized to translate to probabilities for each class -- how likely it was that any of the notes were played in that specific segment.
 
+We thus train an RNN on several hours of synthetically generated audio data. One effective trick used for training the network, also commonly seen in speech recognition, is to mix different kinds of noise on the clean audio data. With this, we are not only able to augment the size of the dataset, but also make the network more robust to noisy audio environmments.
+
 ### Postprocessing Sliding Window Outputs To Label Sequences
-The model described above outputs a probability distribution over the possible classes for each segment of the sliding window. We seek to combine the outputs of each of these segments to get the melody.
+The model described above is trained to output a probability distribution over the possible classes for each segment of the sliding window. The final step is to combine the outputs of each of these segments to get the melody.
 
 {% asset_img rnn-probabilities.png Sliding window outputs over time show changing probabilities of classes across time. %}
 {% asset_img post-nms.png Non-Maximum Suppression keeps the local maxima, which can be used to recover the underlying melody [Note A, Note B] %}
 
-To recover the underlying melody from sliding window outputs, we are going to use a variant of Non-Maximum Suppression (NMS). The basic idea of NMS is to look at each point in the sequence, and suppress neighbouring points that are smaller to zero. At the end of the NMS run, only the local maxima remain. Maxima separated by the silence / noise class can then be read off as the notes constituting the melody.
+To recover the underlying melody from sliding window outputs, we use a variant of Non-Maximum Suppression (NMS). The basic idea of NMS is to look at each point in the sequence, and suppress neighbouring points that are smaller to zero. At the end of the NMS run, only the local maxima remain. Maxima separated by the silence / noise class can then be read off as the notes constituting the melody.
 
-## Results and Conclusion
-Coming soon...
+# In Summary
+We have described a simple machine learning approach to recognize musical melodies with a concrete application in secure audio pairing. For the learning system, we use a sliding window to break a large chunk of audio into smaller segments, run a Recurrent Neural Network -- which captures temporal properties of audio -- over each of those segments to make segment-level predictions, and finally use Non-Maximum Suppression to postprocess the outputs. This system is a part of a security protocol which involves devices establishing a secure connection with each other by playing a short audio sequence, which the other device must recognize.
+
+*This is work done at Stanford University, advised by Professor Dan Boneh*
