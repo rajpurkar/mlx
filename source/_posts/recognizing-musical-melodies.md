@@ -1,12 +1,14 @@
 ---
 title: Recognizing Musical Melodies With Neural Networks for Secure Audio Pairing
-subtitle: Machine Learning Applied to Computer Security
-author: Pranav Rajpurkar, Brad Girardeau 
-tags: 
+tags:
   - Experiment
   - Security
   - RNN
+subtitle: Machine Learning Applied to Computer Security
+author: 'Pranav Rajpurkar, Brad Girardeau'
+date: 2016-10-02 16:41:55
 ---
+
 
 In this post, we share our work at the intersection of machine learning and security. We look at *secure device pairing*, a task in which we are trying to establish a secure connection between two devices wirelessly. We establish a protocol in which the devices can be paired securely if each device can recognize a melody played by the other. To enable this application, we build a machine learning system that can perform melody recognition. 
 
