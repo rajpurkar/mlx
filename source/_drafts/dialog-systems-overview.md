@@ -17,10 +17,20 @@ It's very impressive for a dialog agent to be able to do this. To be able to ans
 
 Of course, dialog agents are not constrained to speech interactions: chat is a natural medium for dialog agents. On the Facebook Messenger platform for instance, use cases include personalized shopping assistance, curated news stories, and assisted food ordering!
 
-We'll look at goal-oriented dialog -- where the bot is said to do well if it helps you complete some task -- and chit-chat, where the bot's success is tied to the its ability to engage in sensible (kudos for interesting) dialog.
+We'll look at an interesting mix of papers in the space of dialog systems.
 
-## Evaluating Prerequisite Qualities for Learning End-to-End Dialog Systems
-The first paper we'll discuss is *[Evaluating Prerequisite Qualities for Learning End-to-End Dialog Systems](https://arxiv.org/abs/1511.06931)* by Jesse Dodge, Andreea Gane, Xiang Zhang, Antoine Bordes, Sumit Chopra, Alexander Miller, Arthur Szlam, Jason Weston. The paper is centered around a proposal of a suite of four tasks for evaluation of dialog systems. Here are the four tasks, each with an example question and answer.
+## Evaluating Dialog Systems
+The first paper we'll take a look at is *[Evaluating Prerequisite Qualities for Learning End-to-End Dialog Systems](https://arxiv.org/abs/1511.06931)* by Jesse Dodge, Andreea Gane, Xiang Zhang, Antoine Bordes, Sumit Chopra, Alexander Miller, Arthur Szlam, Jason Weston.
+
+### What problem does this paper tackle?
+The authors argue that end-to-end dialog systems "lack pertinent goal-oriented frameworks to validate their performance". Evaluation of methods either relies on humans (hand-labelling / crowdsourcing) or use machine translation metrics like BLEU: the former is problematic because human-evaluation is costly and time-intensive, and the latter is problematic because such metrics "judge the quality of the generated language only" rather than "assess if end-to-end systems can conduct dialog to achieve pre-defined objectives".
+
+### Why is the problem important?
+I like this paper because it's not immediately clear how one can evaluate dialog systems. For one, dialog is sometimes goal-oriented.
+
+### What solution does the paper propose?
+The paper proposes of a suite of four tasks for evaluation of dialog systems: QA, recommendation, QA + recommendation, 
+Here are the four tasks, each with an example user-question and expected sample machine response (italicized).
 - **Factoid QA (stand-alone questions):**
   "Can you name a film directed by Stuart Ortiz?"
   *"Grave Encounters"*
@@ -40,6 +50,8 @@ The first paper we'll discuss is *[Evaluating Prerequisite Qualities for Learnin
 - **Reddit Discussion**:
   "I think the Terminator movies really such, I mean the first one was kinda ok, but after that they got really cheesy...""
   *"C'mon the second one was still pretty cool... Arny was so badass..."*
+
+Before we discuss these tasks, let's take a sidestep into understanding the motivation for creating these tasks. 
 
 
 [A Neural Conversational Model](https://arxiv.org/abs/1506.05869) by Oriol Vinyals, Quoc Le
