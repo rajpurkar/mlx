@@ -15,14 +15,14 @@ As speech recognition gets better, we can expect to be having more conversations
 
 It's very impressive for a dialog agent to be able to do this. To be able to answer my first question, the agent has to be able to, among other things, understand my query and execute it on my calendar. For the follow-up questions, it needs to keep track of our conversation to know what 'that' refers to, and what 'after' and 'before' are relative to.
 
-Of course, dialog agents are not constrained to speech interactions (also called *spoken dialog*): chat is a natural medium for dialog agents. On the Facebook Messenger platform for instance, use cases include personalized shopping assistance, curated news stories, and assisted food ordering!
+Of course, dialog agents are not constrained to speech interactions (also called *spoken dialog*): text is a natural medium for conversational agents. On the Facebook Messenger platform for instance, use cases include personalized shopping assistance, curated news stories, and assisted food ordering!
 
 We'll look at a mix of papers on dialog systems.
 
-## Paper 1
+# Paper 1
 The first paper we'll take a look at is *[Evaluating Prerequisite Qualities for Learning End-to-End Dialog Systems](https://arxiv.org/abs/1511.06931)* by Jesse Dodge, Andreea Gane, Xiang Zhang, Antoine Bordes, Sumit Chopra, Alexander Miller, Arthur Szlam, Jason Weston.
 
-### At a glance
+## At a glance
 The authors argue that end-to-end dialog systems "lack pertinent goal-oriented frameworks to validate their performance". The paper proposes of a suite of four tasks for evaluation of dialog systems: QA, Recommendation, QA + Recommendation, and Reddit Discussion. Here are the four tasks, each with an example user-question and expected sample machine response (italicized).
 - **Factoid QA (stand-alone questions):**
   "Can you name a film directed by Stuart Ortiz?"
@@ -55,7 +55,7 @@ The authors argue that end-to-end dialog systems "lack pertinent goal-oriented f
 
 In all of the tasks, for each question, the system is given a list of possible answer candidates, and has to rank them from most probable to least probable. If the right answer, or one of the right answers, is high up on the system's ranking (in the top k, where k is task specific), then the system is considered correct, and wrong otherwise. This is called the hits@k accuracy.
 
-### Food for thought
+## Food for thought
 - Evaluation that points to a system's strengths and weaknesses is informative of how much improvement remains, and where the improvement can come from. It's not immediately clear how one can evaluate a dialog system: what does it mean for the machine to do well at dialog? The paper distinguishes between goal-oriented dialog, where the success of the dialog is tied to the completion of some task, and *chit-chat*, tied to having a sensible conversation about some topic.
 - The paper is motivated by that evaluation relies either on humans (hand-labelling / crowdsourcing) or use machine translation metrics like BLEU: the former is problematic because human-evaluation is costly and time-intensive, and the latter is problematic because such metrics "judge the quality of the generated language only" rather than "assess if end-to-end systems can conduct dialog to achieve pre-defined objectives". Thus the task in the paper is set up such that a model is supposed to rank answer candidates, rather than generating its own answers. The paper argues that this ranking setup focuses the evaluation on the quality of the response rather than on quality of language generation.
 - The paper proposes that end-to-end dialog systems should do well on their proposed suite of tasks, "a necessary but not sufficient condition for a fully functional dialog agent". It thus seems like a good testbed for dialog agents that are supposed to perform a combination of tasks.
@@ -63,10 +63,10 @@ In all of the tasks, for each question, the system is given a list of possible a
 
 In the next paper, we'll look at a paper that introduces a large dataset for evaluating multi-turn dialog systems.
 
-## Paper 2
+# Paper 2
 The second paper we'll look at is [The Ubuntu Dialogue Corpus: A Large Dataset for Research in Unstructured Multi-Turn Dialogue Systems](https://arxiv.org/abs/1506.08909) by Ryan Lowe, Nissan Pow, Iulian Serban, Joelle Pineau.
 
-### At A Glance
+## At a glance
 The authors hypothesize that progress in dialog system is bottlenecked "due to the lack of sufficiently large datasets" for multi-turn conversation. The paper proposes to overcome the data bottleneck by providing "a new large corpus for research in multi-turn conversation". The corpus, called the Ubuntu Dialogue Corpus, consists of chat log interactions from Ubuntu-related chat rooms. Here are a few properties of the dataset:
 - Two-way conversations.
   - Extracted using heuristic rules from a multi-participant setting.
@@ -77,12 +77,26 @@ The authors hypothesize that progress in dialog system is bottlenecked "due to t
 - Task-specific domain.
   - Rather than chit-chat. 
 
-### Food for thought
+## Food for thought
 - Unlike Paper 1, which focused on short interactions (max of three), this one is focused on longer interactions, with multiple turns between the conversational agents (minimum of three).
 - Like Paper 1, this also considers the task of best response selection, where a system is evaluated on its ability to rank candidate responses, rather than generate a response. The paper argues that (i) current systems are "not yet able to generate good results for this task", thus make hill-climbing on the response generation hard, and (ii) we don't have a suitable metric for evaluating generated responses with ground truths (BLEU scores are problematic in their penalization of word-reordering and synonymous words, while human evaluation is expensive). Thus, the paper argues that response selection is a useful metric for the time being, and one that "will eventually lead to improvements on the generation task".
 
 In the next two papers, we will see adoption of the response generation approach, and see how they solve the aforementioned drawbacks. Hint: human evaluation. We'll transition from datasets to models, looking at a neural modelling approach for dialog systems.
 
 
-[A Neural Conversational Model](https://arxiv.org/abs/1506.05869) by Oriol Vinyals, Quoc Le
-[Neural Responding Machine for Short-Text Conversation](https://arxiv.org/abs/1503.02364) by Lifeng Shang, Zhengdong Lu, Hang Li
+# Paper 3
+The next paper we'll take a look at is *[Neural Responding Machine for Short-Text Conversation](https://arxiv.org/abs/1503.02364)* by Lifeng Shang, Zhengdong Lu, and Hang Li.
+
+## At a glance
+The paper tackles the problem of Short Text Conversation, which is characterized one round of conversation, with an input from a user and a response from the machine dialog system. The paper proposes that existing retrieval-based methods (which are supposed to rank candidate answers) are unsuitable because they require a pre-existing list of candidates that cover a large space of answers and are not straightforward to tune in style or attitude. The paper also argues that statistical machine translation (SMT) based methods, which treat the response generation as a translation problem, are unsuitable because equally sensible responses are not semantically equivalent as they are usually in the case of translation. Thus to solve the problem, the paper proposes the Neural Responding Machine (NRM), a neural encoder-decoder for this task.
+
+The NRM proposed is the canonical sequence-to-sequence model seen in neural machine translation: the encoder *encodes* the user post (source) in a vector representation, and then feeds it to the decoder, which generates the response (target), word by word, conditioned on the encoded representation and the previously generated words. The paper also extends this scheme to use an attention mechanism, which (dynamically) weights the input sequence to determine which parts should be used to generate the next word in a response.
+
+The NRM is trained on a Chinese corpus of around 4.4 million pairs of conversations on Weibo, a microblogging service.
+
+## Food for thought
+
+
+# Paper 4
+Paper 4 of 4 is *[A Neural Conversational Model](https://arxiv.org/abs/1506.05869)* by Oriol Vinyals, and Quoc Le.
+
