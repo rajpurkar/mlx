@@ -95,8 +95,10 @@ The NRM proposed is the canonical sequence-to-sequence model seen in neural mach
 The NRM is trained on a Chinese corpus of around 4.4 million pairs of conversations on Weibo, a microblogging service.
 
 ## Food for thought
-
+- Like paper 1, this paper focuses on short text conversation, more specifically on 1-turn interactions.
+- Unlike paper 1 and paper 2, this paper chooses response generation instead of response selection for conversation. For evaluation, human labelers "judge whether a response (generated or retrieved) is appropriate and natural to an input post". The paper observes that while retrieval-based methods have inconsistent details that render the response unsuitable, NRM models tend to make general responses. In addition, the top-k decoded NRM responses to the same prompt can be very different in flavor.
 
 # Paper 4
 Paper 4 of 4 is *[A Neural Conversational Model](https://arxiv.org/abs/1506.05869)* by Oriol Vinyals, and Quoc Le.
+
 
