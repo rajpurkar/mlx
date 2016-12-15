@@ -4,7 +4,7 @@ subtitle: Overview, Methods, and Results
 tags:
 ---
 
-(Post in construction...)
+(Post in construction: images and figures are currently missing.)
 
 ## Question Answering
 Question answering is an important NLP task and longstanding milestone for artificial intelligence systems. QA systems allow a user to ask a question in natural language, and receive the answer to their question quickly and succinctly. Today, QA systems are used in search engines and in phone conversational interfaces, and are pretty good at answering simple factoid questions. But on more complex questions, these usually only go so far as to return a list of snippets that we the users then have to browse through to have our question answered.
