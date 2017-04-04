@@ -2,8 +2,14 @@
 title: streaming-tsne-js
 tags:
 ---
+## Related work / background
+Much in the format as presented in the slides
+- Dimensionality reduction and existing methods
+- Why t-SNE
+- How does t-SNE work
+- Tree-based approximations
 
-Design decisions
+## Design decisions
 - Sparse KNN approximation of P
   - Use vantage point tree to perform KNN queries
     - Use an existing library, fpirsch/vptree.js
@@ -20,6 +26,7 @@ Design decisions
     - Push the computation down from the initialization into the gradient step
     - Instead of computing the symmetric form of Pij during initialization, compute $P_{ij} = \frac{P_{j|i} + P_{i|j}}{2N}$ whenever we need $P_{ij}$ in the gradient step.
     - Avoids the overhead of keeping P symmetric as we add more points, so makes more sense when data is continuously coming in (while precomputing makes more sense when the data is static)
+    - Empirically, performance impact is marginal
 - Use Barnes-Hut approximation for Q
   - No existing library in JavaScript that worked out of the box
   - Decided to stick with 2D (quadtree) for simplicity, but not hard to generalize
@@ -29,7 +36,7 @@ Design decisions
     - bugs in the computation of the center of mass
     - computing the Frep term in the t-SNE gradient rather than magnetic repulsion
   - Existing optimizations:
-    - reusing node objects to prevent "gc horroshow"
+    - reusing node objects between iterations (each time we rebuild the quadtree) to prevent "gc horroshow"
     - iterative breadth-first search rather than depth-first search, avoid too many function calls
   - New optimizations:
     - move var declarations to the top of the functions (1.5-2x? speedup for computeForces)
@@ -39,7 +46,11 @@ Design decisions
   - Use scijs/ndarray to provide a simple view around these arrays
   - Use simple for loops for elementwise operations
 - Further JavaScript/d3/Web optimizations
-  - Use `var` rather than `let` and `const`, which are not well supported by the V8 optimizing compiler
+  - Writing code for a JIT-compiled interpreted language is a very different beast from something like C++ or even Python.
+  - Use `var` rather than `let` and `const`, which are not well supported by the V8 optimizing compiler (3x speedup)
+  - Unfurling loops (not sure if there was any impact here)
+  - Reuse large array buffers
+  - Avoid anonymous functions in tight loops (such as with `forEach`)
   - Use `requestAnimationFrame` rather than `setInterval`
   - Avoid data `enter()`s in d3 unless necessary
   - ?
@@ -76,7 +87,7 @@ Design decisions
   - Lower momentum?? for another 100 iterations [TODO(rajpurkar): why? shouldn't we increase early exaggeration instead?]
 
 
-Future work [anything we actually want to implement today?]:
+## Future work [anything we actually want to implement today?]:
 - Properly support addition of points into the vantage-point tree
 - Support removal of points from the embedding
 - Create API for connecting to live stream of data (e.g. someone can watch for outliers!)
@@ -86,11 +97,14 @@ Future work [anything we actually want to implement today?]:
   - Why do they use forest of randomized kd trees?
   - Select points to recompute/fix their input similarities to improve embedding degradation of points that you are interested in
   - Implement a work queue for things that need to be recomputed
+- Support adding batches of data
 - Implement reservoir sampling for a high throughput stream
 - Offload computation to WebWorkers
+- Use fancier gradient descent methods (RMSprop, Adam...)
+- Leverage WebGL for computations: however adapting our computations to fit the WebGL model will be a major major effort
 
 
-# Additional Experiments to Run
+## Additional Experiments to Run
 
 Other datasets:
 - PCA'd MNIST
