@@ -22,7 +22,7 @@ The reading passages in SQuAD are from high-quality wikipedia articles, and cove
 One defining characteristic of SQuAD is that the answers to all of the questions are
 segments of text, or spans, in the passage. These can be single or multiple words, and are not limited to entities -- any span is fair game.
 
-{% asset_img example.png Answers are spans in the passage %}
+{% asset_img example-squad.png Answers are spans in the passage %}
 
 This is quite a flexible setup, and we find that a diverse range of questions can be asked in the span setting. Rather than having a list of answer choices for each question, systems must select the answer from all possible spans in the passage, thus needing to cope with a fairly large number of candidates. Spans comes with the added bonus that they are easy to evaluate.
 
