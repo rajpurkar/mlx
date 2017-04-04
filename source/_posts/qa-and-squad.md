@@ -86,4 +86,4 @@ Reading comprehension is a challenging task for machines. Comprehension refers t
 
 Since our paper came out in July 2016, we have witnessed significant improvements from deep learning models, and have had many submissions compete to get state of the art results. We expect that the remaining gap will be harder to close, but that such efforts will result in significant advances in machine comprehension of text.
 
-You can check out the leaderboard, explore the dataset and visualize model predictions on stanford-qa.com. All of the data and experiments are on Codalab, which we use for official evaluation of models.
+You can [check out the leaderboard, explore the dataset and visualize model predictions](https://stanford-qa.com). All of the data and experiments are on [Codalab, which we use for official evaluation of models](https://worksheets.codalab.org/worksheets/0x62eefc3e64e04430a1a24785a9293fff/).
