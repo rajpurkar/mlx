@@ -1,6 +1,6 @@
 ---
 title: On the Stanford Question Answering Dataset
-subtitle: 'Overview, Methods, and Results'
+subtitle: A Challenge Reading Comprehension Task
 date: 2017-04-03 22:52:44
 tags:
 ---
