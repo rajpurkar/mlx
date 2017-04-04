@@ -101,5 +101,6 @@ The NRM is trained on a Chinese corpus of around 4.4 million pairs of conversati
 # Paper 4
 Paper 4 of 4 is *[A Neural Conversational Model](https://arxiv.org/abs/1506.05869)* by Oriol Vinyals, and Quoc Le.
 
+This paper introduces a model that converses by predicting the next sentence given the previous sentences in a conversation. 
 (coming soon...)
 
