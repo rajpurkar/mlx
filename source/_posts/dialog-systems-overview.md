@@ -1,13 +1,14 @@
 ---
 title: Food for thought - Dialog Systems
-subtitle: Learnings from a few papers
 tags:
   - nlp
   - dialog
   - overview
   - summary
+subtitle: Learnings from a few papers
+date: 2017-08-31 17:33:34
 ---
-**(post in progress)**
+
 In this post, I share some thoughts on a few papers on dialog systems.
 
 # Why care about dialog systems?
@@ -20,7 +21,7 @@ Of course, dialog agents are not constrained to speech interactions (also called
 We'll look at a mix of papers on dialog systems.
 
 # Paper 1
-The first paper we'll take a look at is *[Evaluating Prerequisite Qualities for Learning End-to-End Dialog Systems](https://arxiv.org/abs/1511.06931)* by Jesse Dodge, Andreea Gane, Xiang Zhang, Antoine Bordes, Sumit Chopra, Alexander Miller, Arthur Szlam, Jason Weston.
+The first paper we'll take a look at is *[Evaluating Prerequisite Qualities for Learning End-to-End Dialog Systems (2016)](https://arxiv.org/abs/1511.06931)* by Jesse Dodge, Andreea Gane, Xiang Zhang, Antoine Bordes, Sumit Chopra, Alexander Miller, Arthur Szlam, Jason Weston.
 
 ## At a glance
 The authors argue that end-to-end dialog systems "lack pertinent goal-oriented frameworks to validate their performance". The paper proposes of a suite of four tasks for evaluation of dialog systems: QA, Recommendation, QA + Recommendation, and Reddit Discussion. Here are the four tasks, each with an example user-question and expected sample machine response (italicized).
@@ -64,7 +65,7 @@ In all of the tasks, for each question, the system is given a list of possible a
 In the next paper, we'll look at a paper that introduces a large dataset for evaluating multi-turn dialog systems.
 
 # Paper 2
-The second paper we'll look at is [The Ubuntu Dialogue Corpus: A Large Dataset for Research in Unstructured Multi-Turn Dialogue Systems](https://arxiv.org/abs/1506.08909) by Ryan Lowe, Nissan Pow, Iulian Serban, Joelle Pineau.
+The second paper we'll look at is [The Ubuntu Dialogue Corpus: A Large Dataset for Research in Unstructured Multi-Turn Dialogue Systems (2016)](https://arxiv.org/abs/1506.08909) by Ryan Lowe, Nissan Pow, Iulian Serban, Joelle Pineau.
 
 ## At a glance
 The authors hypothesize that progress in dialog system is bottlenecked "due to the lack of sufficiently large datasets" for multi-turn conversation. The paper proposes to overcome the data bottleneck by providing "a new large corpus for research in multi-turn conversation". The corpus, called the Ubuntu Dialogue Corpus, consists of chat log interactions from Ubuntu-related chat rooms. Here are a few properties of the dataset:
@@ -81,11 +82,11 @@ The authors hypothesize that progress in dialog system is bottlenecked "due to t
 - Unlike Paper 1, which focused on short interactions (max of three), this one is focused on longer interactions, with multiple turns between the conversational agents (minimum of three).
 - Like Paper 1, this also considers the task of best response selection, where a system is evaluated on its ability to rank candidate responses, rather than generate a response. The paper argues that (i) current systems are "not yet able to generate good results for this task", thus make hill-climbing on the response generation hard, and (ii) we don't have a suitable metric for evaluating generated responses with ground truths (BLEU scores are problematic in their penalization of word-reordering and synonymous words, while human evaluation is expensive). Thus, the paper argues that response selection is a useful metric for the time being, and one that "will eventually lead to improvements on the generation task".
 
-In the next two papers, we will see adoption of the response generation approach, and see how they solve the aforementioned drawbacks. Hint: human evaluation. We'll transition from datasets to models, looking at a neural modelling approach for dialog systems.
+In the next paper, we will see adoption of the response generation approach, and see how they solve the aforementioned drawbacks. Hint: human evaluation. We'll transition from datasets to models, looking at a neural modelling approach for dialog systems.
 
 
 # Paper 3
-The next paper we'll take a look at is *[Neural Responding Machine for Short-Text Conversation](https://arxiv.org/abs/1503.02364)* by Lifeng Shang, Zhengdong Lu, and Hang Li.
+The last paper we'll take a look at is *[Neural Responding Machine for Short-Text Conversation (2015)](https://arxiv.org/abs/1503.02364)* by Lifeng Shang, Zhengdong Lu, and Hang Li.
 
 ## At a glance
 The paper tackles the problem of Short Text Conversation, which is characterized one round of conversation, with an input from a user and a response from the machine dialog system. The paper proposes that existing retrieval-based methods (which are supposed to rank candidate answers) are unsuitable because they require a pre-existing list of candidates that cover a large space of answers and are not straightforward to tune in style or attitude. The paper also argues that statistical machine translation (SMT) based methods, which treat the response generation as a translation problem, are unsuitable because equally sensible responses are not semantically equivalent as they are usually in the case of translation. Thus to solve the problem, the paper proposes the Neural Responding Machine (NRM), a neural encoder-decoder for this task.
@@ -98,9 +99,4 @@ The NRM is trained on a Chinese corpus of around 4.4 million pairs of conversati
 - Like paper 1, this paper focuses on short text conversation, more specifically on 1-turn interactions.
 - Unlike paper 1 and paper 2, this paper chooses response generation instead of response selection for conversation. For evaluation, human labelers "judge whether a response (generated or retrieved) is appropriate and natural to an input post". The paper observes that while retrieval-based methods have inconsistent details that render the response unsuitable, NRM models tend to make general responses. In addition, the top-k decoded NRM responses to the same prompt can be very different in flavor.
 
-# Paper 4
-Paper 4 of 4 is *[A Neural Conversational Model](https://arxiv.org/abs/1506.05869)* by Oriol Vinyals, and Quoc Le.
-
-This paper introduces a model that converses by predicting the next sentence given the previous sentences in a conversation. 
-(coming soon...)
-
+Dialog systems are improving fast, and I'm curious to see all the applications and adoptions that will open up as a consequence in the next few years.
