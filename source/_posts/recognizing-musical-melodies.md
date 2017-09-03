@@ -1,9 +1,7 @@
 ---
 title: Recognizing Musical Melodies With Neural Networks for Secure Audio Pairing
 tags:
-  - Experiment
-  - Security
-  - RNN
+  - security
 subtitle: Machine Learning Applied to Computer Security
 author: 'Pranav Rajpurkar, Brad Girardeau'
 date: 2016-10-02 16:41:55

@@ -1,11 +1,12 @@
 ---
 title: Risk Stratification For Patient Care
 tags:
-  - mlhc
-  - summary
   - healthcare
 subtitle: Learnings from a few papers
+author: 'Pranav Rajpurkar'
+date: 2017-09-02 17:52:32
 ---
+
 
 With rapid adoption of electronic health records, we have increased the quantity of clinical data that are available electronically -- how can we use this data to improve care? In this post, we're going to be looking at a few papers on ML for risk stratification. 
 
@@ -30,8 +31,6 @@ Like the first paper, this paper looks at the use of predictive analytics for a 
 - The task was to predict "whether subjects were to develop type 2 diabetes within a 2-year prediction window." The models were developed using L1 regularized, logistic regression, which is a "computationally efficient alternative to commonly used variable selection methods, such as forward selection and backward elimination, and eliminates both variable ordering bias and the need to adjust for the p-value inflation coming from multiple comparison tests on the same dataset."
 - The enhanced model performs better: for immediate prediction of diabetes, the enhanced model had an AUC of 0.80 compared with an AUC of 0.75 for the baseline parsimonious model, and additionally identifies novel (surrogate) risk factors for type 2 diabetes, such as chronic liver disease, high alanine aminotransferase, esophageal reflux, and history of acute bronchitis.
 
-*The previous 2 papers were part of the reading list for the MIT course on ML for healthcare (2017) taught by Professor David Sontag. The next 2 papers we look at were accepted as part of the Machine Learning For Healthcare Conference (2017).*
-
 The next paper we'll take a look at is *[Intelligible Models for HealthCare: Predicting Pneumonia Risk and Hospital 30-day Readmission (2015)](http://people.dbmi.columbia.edu/noemie/papers/15kdd.pdf)*.
 
 This paper highlights the tradeoff between the accuracy and intelligibility (interpretable by humans) of models: NNs / random forests are sometimes more accurate, but could they be learning rules that could put patients at risk, here in the task of predicting 30-day hospital readmission? 
@@ -45,3 +44,6 @@ Our final paper is *[Classifying Lung Cancer Severity with Ensemble Machine Lear
 chemotherapy has early stage (stages I-III) or late stage (stage IV) cancer, with the goal of achieving "sensitivity and specificity in the full sample above 80% simultaneously."
 - The baseline is a clinical tree algorithm, which is a decision tree that uses a small target set of clinical variables, based on clinical guidelines.
 - The authors develop an ensemble of classifiers, that include a random forest, a GAM (like we saw in the previous paper), lasso, and svm, using clinical variables used by the clinical tree algorithm, along with demographic, claim, treatment, and comorbidity variables, and 13 lung cancer type and secondary malignancy diagnosis codes. Their ensemble yields "full sample performance of 93% sensitivity, 92% specificity, and 93% accuracy"
+
+
+*The first two papers were part of the reading list for the MIT course on ML for healthcare (2017) taught by Professor David Sontag. The next 2 papers we look at were accepted as part of the Machine Learning For Healthcare Conference (2017).*

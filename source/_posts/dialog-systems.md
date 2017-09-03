@@ -3,10 +3,9 @@ title: Food for thought - Dialog Systems
 tags:
   - nlp
   - dialog
-  - overview
-  - summary
 subtitle: Learnings from a few papers
 date: 2017-08-31 17:33:34
+author: 'Pranav Rajpurkar'
 ---
 
 In this post, I share some thoughts on a few papers on dialog systems.
