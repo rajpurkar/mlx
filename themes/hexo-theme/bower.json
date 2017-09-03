@@ -1,0 +1,10 @@
+{
+  "name": "hexo-theme",
+  "description": "my hexo theme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "MathJax": "components/MathJax#^2.6.0",
+    "components-font-awesome": "^4.6.3",
+    "lato-font": "^1.1.1"
+  }
+}

@@ -1,0 +1,91 @@
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    <% if (page.description){ %>
+        <meta name="description" content="<%= page.description %>">
+    <% } else if (config.description){ %>
+        <meta name="description" content="<%= config.description %>">
+    <% } else if (page.excerpt){ %>
+        <meta name="description" content="<%= strip_html(page.excerpt).replace(/^\s*/, '').replace(/\s*$/, '') %>">
+    <% } else if (page.content){ %>
+        <meta name="description" content="<%= strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150) %>">
+    <% } %>
+
+    <!--Author-->
+    <% if (config.author){ %>
+        <meta name="author" content="<%= config.author %>">
+    <% } %>
+
+    <!--Open Graph Title-->
+    <% if (page.title){ %>
+        <meta property="og:title" content="<%= page.title %>"/>
+    <% } else { %>
+        <meta property="og:title" content="<%= config.title %>"/>
+    <% } %>
+
+    <!--Open Graph Description-->
+    <% if (page.description){ %>
+        <meta property="og:description" content="<%= page.description %>" />
+    <% } else if (config.description) { %>
+        <meta property="og:description" content="<%= config.description %>" />
+    <% } %>
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="<%= config.title %>"/>
+
+    <!--Type page-->
+    <% if(page.title) { %>
+        <meta property="og:type" content="article" />
+    <% } else { %>
+        <meta property="og:type" content="website" />
+    <% } %>
+
+    <!--Page Cover-->
+    <% if (page.share_cover) { %>
+        <meta property="og:image" content="<%= config.url %><%= page.share_cover %>" />
+    <% } else if (config.cover) { %>
+        <meta property="og:image" content="<%= config.url %><%= config.cover %>"/>
+    <% } %>
+
+        <meta name="twitter:card" content="summary" />
+    <% if(theme.twitter_handle) { %>
+        <meta name="twitter:site" content="<%= theme.twitter_handle %>>" />
+    <% } %>
+
+    <% if(theme.favicon) { %>
+        <link rel="icon" type="image/png" href="<%= url_for(theme.favicon) %>">
+    <% } %>
+
+    <!-- Title -->
+    <%
+    var title = [];
+    if (page.current > 1) title.push(__('page', page.current));
+    if (page.title) title.push(page.title);
+    if (page.category) title.push(page.category);
+    if (page.tag) title.push(page.tag);
+    if (page.archive) {
+        if (page.year) title.push(__('archive_b', page.year + (page.month ? '/' + page.month : '')));
+        else title.push(__('archive_a'));
+    }
+    title.push(config.title);
+    %>
+    <title><%= title.join(' - ') %></title>
+
+    <!-- Bootstrap Core CSS -->
+    <%- css('bower_components/bootstrap/dist/css/bootstrap.min.css') %>
+
+    <!-- Custom CSS -->
+    <%- css('css/style.css') %>
+
+    <!-- Custom Fonts -->
+    <%- css('bower_components/components-font-awesome/css/font-awesome.min.css') %>
+    <%- css('bower_components/lato-font/css/lato-font.min.css') %>
+
+    <!-- Google Analytics -->
+    <%- partial('google-analytics') %>
+
+</head>

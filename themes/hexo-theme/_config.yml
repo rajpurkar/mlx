@@ -1,0 +1,42 @@
+# Header
+# background image thx to http://subtlepatterns.com/congruent-pentagon/
+menu:
+  Home: /
+  Archives: /archives
+  Github:
+    url: https://github.com/rajpurkar/mlx
+    icon: github
+
+# Title on top left of menu. Leave empty to use main blog title
+menu_title:
+
+favicon: /img/favicon.png
+
+# URL of the Home page image
+index_cover: /img/bg.jpg
+# Default post title
+default_post_title: Untitled
+
+# Comments. Choose one by filling up the information
+comments:
+  # Disqus comments
+  disqus_shortname: mlx-2
+  # Facebook comments
+  facebook:
+    appid:
+    comment_count: 5
+    comment_colorscheme: light
+
+# Google Analytics Tracking ID
+google_analytics:
+
+# Addthis ID
+addthis:
+
+# Social Accounts
+twitter_url: https://twitter.com/pranavrajpurkar
+twitter_handle: rajpurkar
+facebook_url:
+github_url: https://github.com/rajpurkar/mlx
+linkedin_url:
+mailto: pranavsr@stanford.edu
