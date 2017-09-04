@@ -3,8 +3,10 @@ title: Survival Analysis
 tags:
   - healthcare
 subtitle: Learnings from a few papers
-author: 'Pranav Rajpurkar'
+author: Pranav Rajpurkar
+date: 2017-09-03 23:57:11
 ---
+
 
 Survival analysis concerns itself with predicting the time until the occurence of an event, such as death, or onset of a disease. We'll look at a few papers on survival analysis.
 
