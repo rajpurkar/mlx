@@ -20,7 +20,7 @@ $$τ\left(x\right) = \mathbb{E}[Y_i^{(1)} - Y_i^{(0)} | X_i = x]$$
 
 We seek to learn $τ$, but note the difficulty that we can only ever observe one of $(Y_i^{(0)})$ and $(Y_i^{(1)})$ in practice, because we can't treat and not treat the same patient simultaneously: this is called the *fundamental problem of causal inference*. It's therefore challenging to directly train machine learning algorithms on differences of the form $Y_i^{(1)} - Y_i^{(0)}$.
 
-So how do we estimate such treatment effects? In this post, we look at a few papers to get some insights:
+So how do we estimate such treatment effects? In this post, we look at a couple of papers to get some insights:
 
 The first paper we look at is [Estimation and inference of heterogeneous treatment effects using random forests (2017)](http://www.tandfonline.com/doi/abs/10.1080/01621459.2017.1319839).
 
@@ -29,7 +29,7 @@ This paper extends the random forest algorithm to a causal forest for estimating
 - Trees can be thought of as nearest neighbor methods with an adaptive neighborhood metric, with the closest points to $x$ being in the same leaf that it is. Let's assume that we can building a classification tree by some method by observing independent samples $(X_i, Y_i)$, then a new $x$ can be classified by:
     - Identify the leaf containing $x$
     - In that leaf, take the mean of the $Y_i$s in that leaf.
-- In a causal forest, we make use of the assignment labels $W_i$ in the examples. To make the prediction $τ\left(x\right)$:
+- In a causal tree, we make use of the assignment labels $W_i$ in the examples. To make the prediction $τ\left(x\right)$:
     - Identify the leaf containing $x$
     - In that leaf, compute the mean of the $Y_i$s where $W_i = 0$, and subtract that from the mean of the $Y_i$s where $W_i = 1$.
 - Given a procedure for generating one tree, a causal forest can generate an ensemble of such trees, and then take the mean of the resulting $τ\left(x\right)$s.
@@ -53,8 +53,9 @@ $$\mathbb{E}[Y_i^{\star} | X_i = x] = τ\left(x\right) $$
 - We can thus estimate $\mathbb{E}[Y_i^{\star} | X_i = x]$ directly (without using indicator features for $W_i$ as input, and without the need for 2 models):
     - Identify the leaf containing $x$
     - In that leaf, take the mean of the $Y_i^{\star}$s in that leaf.
-- However, the TOT method is biased. To see this, consider what happens when the fraction treated in a particular leaf is different from the fraction treated in the population. Because the TOT algorithm throws away the $W_i$s, we cannot account for this imbalance.
-- The fourth algorithm is called the Causal Tree (CT) method. This method improves on the TOT method by keeping the $W_i$s to 
+- However, the TOT method, while an unbiased estimator of the treatment effect in the population, is biased on any given subsample. To see this, consider what happens when the fraction treated in a particular leaf is different from the fraction treated in the population. Because the TOT algorithm throws away the $W_i$s, we cannot account for this imbalance.
+- The fourth algorithm, called the Causal Tree (CT) method, improves upon the TOT approach, "unbiased within each candidate leaf upon which it is calculated." The algorithm is identical to the causal tree algorithm we saw in Paper 1 in the case of randomized assignments.
+- Note the challenge of evaluating these algorithms on a test set:  the “ground truth” for a causal effect is not observed for any individual unit. On a simulation study, the authors compare their algorithms on an *infeasible oracle objective function*, which uses knowledge of both potential outcomes in evaluating the performance of the algorithms.
 
 
-Starting with the infeasible oracle objective function
+*To learn more about causal inference, check out these [notes](https://mlhc17mit.github.io/slides/lecture3.pdf) from MIT's course on ML for healthcare (2017) taught by David Sontag, or these [slides](http://www.nasonline.org/programs/sackler-colloquia/documents/athey.pdf) by Susan Athey, and Guido Imbens.*
