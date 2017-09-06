@@ -4,7 +4,9 @@ tags:
   - healthcare
 subtitle: Learnings from a few papers
 author: Pranav Rajpurkar
+date: 2017-09-06 03:36:06
 ---
+
 
 Will a drug have a positive effect on a patient? For a patient $i$, the **treatment effect** (${τ_i}$) is the difference in potential outcomes if the patient receives a drug $(Y_i^{(1)})$ vs. if they don't $(Y_i^{(0)})$.
 
