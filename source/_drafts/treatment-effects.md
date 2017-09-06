@@ -14,7 +14,7 @@ We look at work that deals with binary outcomes, where 0 corresponds to a bad ou
 
 $$τ\,^p = \mathbb{E}[Y_i^{(1)} - Y_i^{(0)}]$$
 
-However, we might be more interested whether the treatment would be effective not for the whole population, but for a particular individual, or a particular subpopulation $x$; this is refered to as heterogeneous treatment effects:
+Sometimes the population average effect of the drug is not positive, but that the drug can be effective for particular categories of patients. We might be interested in understanding how effective the treatment would be for a particular individual or subpopulation $x$; this is refered to as heterogeneous treatment effect or Conditional Average Treatment Effect (CATE):
 
 $$τ\left(x\right) = \mathbb{E}[Y_i^{(1)} - Y_i^{(0)} | X_i = x]$$
 
@@ -40,4 +40,21 @@ This paper extends the random forest algorithm to a causal forest for estimating
 
 The next paper we'll look at is [Machine Learning Methods for Estimating Heterogeneous Causal Effects (2015)](https://pdfs.semanticscholar.org/86ce/004214845a1683d59b64c4363a067d342cac.pdf); this work inspires the causal tree approach we saw in the first paper. 
 
-- The paper first goes over two baseline methods for estimating causal 
+- The paper discuss methods for estimating heterogeneous treatment effects, starting with two conventional baseline algorithms. In addition, two novel algorithms are developed.
+- The first algorithm, called the Single Tree (ST) algorithm estimates the expectation of the outcome conditioned on both the treatment and $X_i$ as features:
+$$ µ(w, x) = \mathbb{E}[Y_i^{obs} | W_i = w, X_i = x]$$
+- The CATE can then be estimated as:
+$$ \hat{τ}\left(x\right)  = µ(w, 1)  - µ(w, 0)$$
+- The second algorithm, called the Two Tree (TT) algorithm, modifies the first algorithm to split the problem of estimating $ \hat{τ}\left(x\right)$ into two separate problems, so that one model is responsible for the conditional expectation $ µ_1(x) $ with samples where $ W_i = 1 $, and another $ µ_0(x) $ with samples where $ W_i = 0 $.
+- The CATE can then be estimated as:
+$$ \hat{τ}\left(x\right)  = µ_1(w)  - µ_0(w)$$
+- The third algorithm is called the Transformed Outcome Tree method. The paper looks at a more general version of the transformation, but we'll focus on the case of complete randomization, with equal probability of being assigned treatment vs. not. The idea of this method is to transform the outcome $ Y_i^{obs} $ to $ Y_i^{\star} $, where $ Y_i^{\star} = 2 \cdot Y_i^{obs} $ when $ W_i = 1 $, and $ Y_i^{\star} = -2 \cdot Y_i^{obs} $ when $ W_i = 0 $, ignoring the presence of the treatment indicator $W_i$. Then under the unconfoundedness assumption, it is proved that:
+$$\mathbb{E}[Y_i^{\star} | X_i = x] = τ\left(x\right) $$
+- We can thus estimate $\mathbb{E}[Y_i^{\star} | X_i = x]$ directly (without using indicator features for $W_i$ as input, and without the need for 2 models):
+    - Identify the leaf containing $x$
+    - In that leaf, take the mean of the $Y_i^{\star}$s in that leaf.
+- However, the TOT method is biased. To see this, consider what happens when the fraction treated in a particular leaf is different from the fraction treated in the population. Because the TOT algorithm throws away the $W_i$s, we cannot account for this imbalance.
+- The fourth algorithm is called the Causal Tree (CT) method. This method improves on the TOT method by keeping the $W_i$s to 
+
+
+Starting with the infeasible oracle objective function
