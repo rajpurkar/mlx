@@ -1,6 +1,6 @@
 ---
-title: On the Stanford Question Answering Dataset
-subtitle: A Challenge Reading Comprehension Task
+title: The Stanford Question Answering Dataset
+subtitle: Background, Challenges, Progress
 date: 2017-04-03 22:52:44
 author: 'Pranav Rajpurkar'
 tags:

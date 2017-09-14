@@ -1,5 +1,5 @@
 ---
-title: Food for thought - Dialog Systems
+title: Dialog Systems
 tags:
   - nlp
   - dialog
