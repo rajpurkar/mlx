@@ -1,7 +1,9 @@
 ---
-title: model-interpretability
+title: Visualizing Image Classification CNNs
+date: 2017-09-17 20:14:43
 tags:
 ---
+
 We look at [Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps](https://arxiv.org/pdf/1312.6034.pdf)
 
 This paper looks at the visualization of deep learning based image classification models. There are two ideas for visualizing the workings of the neural network. Both of them require computing of the gradient of the output with respect to the input image.
@@ -16,9 +18,9 @@ We can start off with some image $I$, compute the gradient with respect to $I$ u
 
 **Class Saliency in an Image**: The goal here is to find the pixels of an image which contribute most towards a particular classification. *Think: what pixels in this image are most important for the neural network to classify it as an image of a spaceship.* We're going to take the derivative of the class score $S$ with respect to the input image space $I$, and evaluate at our image $I\_0$; mathematically: $\frac{\partial S}{\partial I}\bigr\rvert\_{I\_0}$.
 
-The above derivative gives us a scalar value for each of the pixels $w_{ij} $ in the image. We can take the magnitude of these values and then normalize them to get a class saliency map $M$ over the image.
+The above derivative gives us a scalar value for each of the pixels $w_{ij} $ in the image. We can take the magnitude of these values and then normalize them to get a class saliency map $M\_c$ over the image.
 
-$$ M\_{ij} = \frac{w\_{ij}}{\sum\_{ij} w\_{ij}} $$
+$$ M\_c(i,j) = \frac{w\_{ij}}{\sum\_{ij} w\_{ij}} $$
 
 {% asset_img image_specific_saliency_map.png Image-specific Saliency Map shows pixels that are most important for the image being classified as a dog. Source: https://arxiv.org/pdf/1312.6034.pdf.%}
 
@@ -28,3 +30,12 @@ The next paper we'll look at is [Learning Deep Features for Discriminative Local
 
 This paper proposes another way to visualize class saliency in images. While the previous paper looks at using back-propagation of the output class score with respect to the input, this paper modifies the network architecture so that the forward propagation can perform both the classification and localization. 
 
+The network architecture starts with a sequence of convolutional layers. Passing an image through convolutional layers gives us $k$ feature maps of the image, which are the result of applying learned filters to the image. Each feature map consists of $ x \times y $ activations. Let $f\_k(x, y)$ represent the activation at the $(x, y)$ location in feature map $k$.
+
+To classify, 
+
+$$ S\_c = \sum\_{x, y} \sum\_k w\_k^{c}\;f\_k(x, y)$$
+
+For localization, we have:
+
+$$ M\_c(i,j) = \sum\_k w\_k^{c}\;f\_k(x, y) $$
