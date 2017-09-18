@@ -1,5 +1,5 @@
 ---
-title: Visualizing Convolutional Neural Networks
+title: Visualizing A Convolutional Neural Network's Predictions
 tags:
 subtitle: Learnings from a few papers
 author: 'Pranav Rajpurkar'
