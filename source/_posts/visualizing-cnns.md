@@ -1,6 +1,7 @@
 ---
 title: Visualizing A Convolutional Neural Network's Predictions
 tags:
+  - visualization 
 subtitle: Learnings from a few papers
 author: 'Pranav Rajpurkar'
 date: 2017-09-18 00:03:00
@@ -15,7 +16,7 @@ This paper introduces two ideas for visualizing the workings of the neural netwo
 
 **Class Model Visualization**: The task here is to generate an image which will best represent a category. *Think: what's the image that looks most like a spaceship to the neural network?*. We're going to find the image $I$ which maximizes the score $S_c(I)$ the network assigns to category $c$; mathematically: $\mathtt{argmax}\_I \space S_c(I)$.
 
-*Note: the score $S_c(I)$ is the score that the neural network assigns to a class *before* the softmax, not the probability $P_c = \frac{e^{S_c}}{\sum_c e^{S_c}}$
+*Note:* the score $S\_c(I)$ is the score that the neural network assigns to a class *before* the softmax, not the probability $P\_c = \frac{e^{S\_c}}{\sum\_c e^{S\_c}}$
 
 We can start off with some image $I$, compute the gradient with respect to $I$ using back-propagation, and then use gradient ascent to find a better $I$, repeating the process until we find a locally optimal $I$. This is very similar to the optimization process for training a neural network, but instead of optimizing the weights, we're optimizing the image, keeping the weights fixed.
 
