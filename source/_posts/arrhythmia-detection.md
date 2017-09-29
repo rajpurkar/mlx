@@ -27,5 +27,4 @@ Machine learning allows us to build systems which learn automatically from data.
 
 Automating the detection of arrhythmias opens up an array of possibilities. With 300 million ECGs recorded annually, high accuracy automatic diagnosis can save doctors considerable time. Coupled with low-cost ECG devices, automated detection can provide diagnostic tools in parts of the world where access to skilled doctors is limited.
 
-*Read more about automated arrhythmia detection in our paper [
-Cardiologist-Level Arrhythmia Detection with Convolutional Neural Networks](https://arxiv.org/pdf/1707.01836.pdf).*
+*Read more about automated arrhythmia detection in our paper [Cardiologist-Level Arrhythmia Detection with Convolutional Neural Networks](https://arxiv.org/pdf/1707.01836.pdf). This work was co-led by Awni Hannun, and advised by Professor Andrew Ng.*
