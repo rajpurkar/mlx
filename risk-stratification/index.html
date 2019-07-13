@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="A blog for machine learning experiments.">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Pranav Rajpurkar">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Risk Stratification For Patient Care"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="A blog for machine learning experiments." />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="mlx"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="rajpurkar>" />
+    
+
+    
+        <link rel="icon" type="image/png" href="/mlx/img/favicon.png">
+    
+
+    <!-- Title -->
+    
+    <title>Risk Stratification For Patient Care - mlx</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/mlx/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/mlx/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/mlx/bower_components/lato-font/css/lato-font.min.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-106613516-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mlx/">mlx</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/mlx/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/mlx/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rajpurkar/mlx">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/mlx/img/bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="post-heading">
+                    <h1>Risk Stratification For Patient Care</h1>
+                    
+                    <h2 class="post-subheading">
+                        Learnings from a few papers
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            By Pranav Rajpurkar on
+                        
+                        September 2nd 2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Gallery -->
+            
+            <!-- Post Main Content -->
+            <div class="col-md-9">
+                <p>With the rapid adoption of electronic health records, we have increased the quantity of clinical data that are available electronically – how can we use this data to improve care? In this post, we’re going to be looking at a few papers on ML for risk stratification. </p>
+<p>The first paper we’ll take a look at is <em><a href="http://content.healthaffairs.org/content/33/7/1123.full">Big Data In Health Care: Using Analytics To Identify And Manage High-Risk And High-Cost Patients (2014)</a></em>.</p>
+<p>The paper addresses the problem of high costs of healthcare, identifying opportunities to reduce costs through the use of predictive systems: “software tools that allow the stratification of risk to predict an outcome”. The paper looks at six opportunities whether clinical analytics is likely beneficial:</p>
+<ul>
+<li>High-cost patients: Management will be much more cost-effective if interventions can be precisely tailored to a patient’s specific problems. If high-risk and low-risk patients can be identified, a better reallocation of resources can follow.</li>
+<li>Readmissions: Healthcare organizations should use algorithms to predict who is likely to be readmitted to the hospital, and patient-specific monitoring once they’re discharged to intervene if necessary.</li>
+<li>Triage (assigning degrees of urgency to patients): Use patient data to anticipate risk, and combine with routinely collected physiological measurements to make accurate assessments.</li>
+<li>Decompensation (worsening of patient condition): Continuous monitoring of multiple data streams (is the patient moving, ECG, oxygen) combined with real-time alert systems.</li>
+<li>Adverse events: Similar to decompensation; applications to renal failure, infection, and adverse drug events.</li>
+<li>Diseases Affecting Multiple Organ Systems: Clinical data networks and access to longitudinal records (history of patient visits) can improve patient care.</li>
+</ul>
+<p>We’ll look at work that tackles a few of these verticals.</p>
+<p>The second paper we’ll cover is <em><a href="http://online.liebertpub.com/doi/pdf/10.1089/big.2015.0020">Population-Level Prediction of Type 2 Diabetes From Claims Data and Analysis of Risk Factors (2015)</a></em>.</p>
+<p>Like the first paper, this paper looks at the use of predictive analytics for a risk assessment task. Specifically, the work develops a population-level risk prediction model for type 2 diabetes, built using health insurance claims and other readily available clinical and utilization data.</p>
+<ul>
+<li>The outcome of interest is the confirmed diagnosis of type 2 diabetes (using ICD codes and use of diabetes medication).</li>
+<li>A parsimonious (baseline) model is built that uses “risk factors derived from seven landmark studies of risk prediction models for predicting incident diabetes”, using direct or surrogate measurements.</li>
+<li>An enhanced model is then built, that uses variables such as demographics, medical conditions (using ICD-9 codes), procedures, visits, etc. for a total of ~42,000 variables.</li>
+<li>The task was to predict “whether subjects were to develop type 2 diabetes within a 2-year prediction window.” The models were developed using L1 regularized, logistic regression, which is a “computationally efficient alternative to commonly used variable selection methods, such as forward selection and backward elimination, and eliminates both variable ordering bias and the need to adjust for the p-value inflation coming from multiple comparison tests on the same dataset.”</li>
+<li>The enhanced model performs better: for immediate prediction of diabetes, the enhanced model had an AUC of 0.80 compared with an AUC of 0.75 for the baseline parsimonious model, and additionally identifies novel (surrogate) risk factors for type 2 diabetes, such as chronic liver disease, high alanine aminotransferase, esophageal reflux, and history of acute bronchitis.</li>
+</ul>
+<p>The next paper we’ll take a look at is <em><a href="http://people.dbmi.columbia.edu/noemie/papers/15kdd.pdf">Intelligible Models for HealthCare: Predicting Pneumonia Risk and Hospital 30-day Readmission (2015)</a></em>.</p>
+<p>This paper highlights the tradeoff between the accuracy and intelligibility (interpretable by humans) of models: NNs / random forests are sometimes more accurate, but could they be learning rules that could put patients at risk, here in the task of predicting 30-day hospital readmission? </p>
+<ul>
+<li>The authors augmenting Generalized Additive Models (GAMs), which look at single features, with pairwise interactions to get (GA2Ms). GAMs and GA2Ms have the advantage that they are intelligible: their model returns a risk score that is added to the patient’s aggregate predicted risk. Because the expected value of each term is 0, terms with risk scores above zero increase risk; terms with scores below zero decrease risk. This risk score can be added to baseline risk and converted to a probability.</li>
+<li>They show that GA2Ms do not lose out on accuracy to other models, with Pneumonia risk results that show “logistic regression achieves AUC = 0.843, Random Forests achieves 0.846, LogitBoost 0.849, GAM 0.854, and GA2M is best with AUC = 0.857.4.”</li>
+</ul>
+<p>Our final paper is <em><a href="http://mucmd.org/CameraReadySubmissions/9%5CCameraReadySubmission%5CCLC_camera_ready.pdf">Classifying Lung Cancer Severity with Ensemble Machine Learning in Health Care Claims Data (2017)</a></em>.</p>
+<ul>
+<li>This paper looks at the binary classification task of determining whether a lung cancer patient receiving<br>chemotherapy has early stage (stages I-III) or late stage (stage IV) cancer, with the goal of achieving “sensitivity and specificity in the full sample above 80% simultaneously.”</li>
+<li>The baseline is a clinical tree algorithm, which is a decision tree that uses a small target set of clinical variables, based on clinical guidelines.</li>
+<li>The authors develop an ensemble of classifiers, that include a random forest, a GAM (like we saw in the previous paper), lasso, and SVM, using clinical variables used by the clinical tree algorithm, along with demographic, claim, treatment, and comorbidity variables, and 13 lung cancer type and secondary malignancy diagnosis codes. Their ensemble yields “full sample performance of 93% sensitivity, 92% specificity, and 93% accuracy”</li>
+</ul>
+<p><em>The first two papers were part of the reading list for the MIT course on ML for healthcare (2017) taught by Professor David Sontag. The next 2 papers we look at were accepted as part of the Machine Learning For Healthcare Conference (2017).</em></p>
+
+                
+                    
+    <hr />
+    <h3>Comments:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+                
+            </div>
+            <div class="col-md-3">
+                <h2> Also Read </h2>
+                <hr>
+                
+                    <div class="post-preview">
+    <a href="/mlx/treatment-effects/">
+        <h1 class="post-title archive">
+            Treatment Effects with Decision Trees
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 6th 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/survival-analysis/">
+        <h1 class="post-title archive">
+            Survival Analysis
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 3rd 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/arrhythmia-detection/">
+        <h1 class="post-title archive">
+            Arrhythmia Detection
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 13th 2017
+    </p>
+</div>
+                
+                <hr>
+                
+                    
+
+
+<a href="/mlx/tags/healthcare/">#healthcare</a>
+
+
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                        <li>
+                            <a href="https://twitter.com/pranavrajpurkar" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/rajpurkar/mlx" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="mailto:pranavsr@cs.stanford.edu" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/mlx/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="/mlx/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'mlx-2';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script src="/mlx/bower_components/MathJax/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+
+</body>
+
+</html>

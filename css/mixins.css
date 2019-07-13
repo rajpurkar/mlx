@@ -1,0 +1,17 @@
+.transition-all {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.background-cover {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+.serif {
+  font-family: 'Lato', Arial, sans-serif;
+}
+.sans-serif {
+  font-family: 'Lato', Arial, sans-serif;
+}

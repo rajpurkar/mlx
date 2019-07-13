@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="A blog for machine learning experiments.">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Pranav Rajpurkar">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Cardiotoxicity Prediction"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="A blog for machine learning experiments." />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="mlx"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="rajpurkar>" />
+    
+
+    
+        <link rel="icon" type="image/png" href="/mlx/img/favicon.png">
+    
+
+    <!-- Title -->
+    
+    <title>Cardiotoxicity Prediction - mlx</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/mlx/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/mlx/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/mlx/bower_components/lato-font/css/lato-font.min.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-106613516-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mlx/">mlx</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/mlx/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/mlx/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rajpurkar/mlx">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/mlx/img/bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="post-heading">
+                    <h1>Cardiotoxicity Prediction</h1>
+                    
+                    <h2 class="post-subheading">
+                        Learnings from a few papers
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            By Jeremy Irvin, Pranav Rajpurkar on
+                        
+                        October 7th 2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Gallery -->
+            
+            <!-- Post Main Content -->
+            <div class="col-md-9">
+                <p>Chemotherapy, or the use of anticancer drugs, remains one of the most common and effective cancer treatments used today. However, the intense anticancer regimen can take its toll on the body, causing substantial health complications during and after treatment. One frequent side effect of anticancer medication is severe heart damage, a phenomenon known as cardiotoxicity. </p>
+<p>Cardiotoxicity is a condition when there is damage to the heart muscle, and as a result, the heart is not able to pump blood effectively to the rest of the body. Over time, the kidneys may respond by causing the body to retain fluid, causing congestion, leading to a condition known as Congestive Heart Failure. An echocardiogram test allows doctors to make a calculation of how well the heart pumps blood with each beat, called the ejection fraction (EF). Most times, EF refers to the amount of blood being pumped out of the left ventricle of the heart each time it contracts, also called Left Ventricular Ejection Fraction (LVEF).</p>
+<p>In this post, we share our learnings from three recent papers that provide insight into the some methods for detection of cardiotoxicity.</p>
+<p>The first paper we look at is <a href="https://www.ncbi.nlm.nih.gov/pubmed/25948538">Early detection of anthracycline cardiotoxicity and improvement with heart failure therapy (Cardinale et al. 2015)</a>.<br>The paper proposes that early detection and treatment of cardiotoxicity, even when asymptomatic, is critical for cardiac function recovery and for reduction of associated adverse cardiac events.</p>
+<ul>
+<li>The primary end-point of the study is the time of occurrence of cardiotoxicity. Cardiotoxicity is defined as LVEF decrease &gt;10% units, and below 50% measured against the baseline LVEF before the start of chemotherapy. When patients are diagnosed as cardiotoxic, Heart Failure Therapy is started, and recovery from cardiotoxicity, defined as LVEF increase, is measured.</li>
+<li>A multivariable Cox regression model with forward stepwise selection of variables is built with candidate variables including age, gender, cardiovascular risk factors, cumulative anthracycline dose, mediastinal radiotherapy, left chest radiotherapy, body mass index, year of recruitment, and baseline and final (at the end of chemotherapy) LVEF. The model identifies cumulative anthracycline dose and end-chemotherapy LVEF as associated with cardiotoxicity occurrence after cross-validation.</li>
+<li>The paper notes that previous literature classifies cardiotoxicities into 1) “acute”, showing up after a single dose, or a single course of chemo drugs, 2) “early onset chronic”, the most frequent and clinically relevant, developing within 1 year, and 3) “late onset chronic” developing years, or even decades, after the end of chemotherapy. The paper argues that this classification may be misguided, and proposes that we might be “possibly observing different stages of evolution of the same phenomenon and not three distinct diseases.” </li>
+</ul>
+<p>The second paper we look at is <a href="https://www.ncbi.nlm.nih.gov/pubmed/26919165">Cardiotoxicity of anticancer treatments: Epidemiology, detection, and management (Curigliano et al. 2016)</a>.<br>This review summarizes recent findings on the use of cardiotoxic cancer therapeutics, namely common adverse events, discovery of cancer therapy-induced cardiovascular damage, the treatment of this damage, and potential cardioprotective agents. Here are a few of the points we found most interesting:</p>
+<ul>
+<li>Cardiovascular disease is the second leading cause of long-term disease and death among cancer survivors.</li>
+<li>Decreases in LVEF only occur after substantial cardiac damage, so LVEF measurement is poor for detecting early-stage cardiotoxicity. This aligns with the findings of the previous paper - cardiotoxic effects were generally detected too late, as only 11% of patients experienced a full recovery (i.e. restoration of the LVEF value before beginning chemotherapy). This calls for improved predictors and even better, preventative mechanisms.</li>
+<li>Other imaging tools like MUGA and and MRI are better at early-stage detection. However, MUGA requires radiation exposure and MRI is costly and hard to obtain with frequency, so LVEF remains the current best diagnostic tool used in practice.</li>
+<li>There is work to improve diagnosis through biomarkers, but these are sparsely used in clinical settings due to lack of understanding. There are also efforts to develop cardioprotective treatment, but none have been proven to work for cancer therapy-related cardiotoxicity.</li>
+</ul>
+<p>Finally, we look at <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5391725/">Using recurrent neural network models for early detection of heart failure onset (Choi et al. 2017)</a>, a paper that uses machine learning on EHR data to automatically predict risk of heart failure. While this doesn’t directly tackle prediction of chemotherapy-induced cardiotoxicity, it highlights an approach that could be applied towards that goal.</p>
+<ul>
+<li>The authors partition an 18-month period of data into an observation window and a prediction window. From the observation window, they obtain a single patient’s history during that period, including diagnoses, prescription orders, performed procedures, etc. For example, the history includes the number of times the patient used a particular medication in the observation window and the number of times the patient underwent a certain procedure during that period. In the prediction window, a model is responsible for predicting whether the patient will develop heart failure, represented as a binary label.</li>
+<li>The main contribution of this work is the use of recurrent neural networks (RNNs) to process temporal patient data. Instead of using a single representation of the patient’s medical history, they represent their history as a sequence of events, where an event may be the arrival of a particular symptom or performance of a certain procedure for example. It is important to note that each patient experiences different sequences of events during the observation window. Fortunately, RNNs are designed to handle variable-length sequences.</li>
+<li>Every patient in their dataset is represented by a sequence of events which amalgamate their medical history during the observation window, along with a label denoting whether the patient will go on to develop heart failure in the prediction window. The authors train RNNs on these sequences to predict whether a patient will be diagnosed with heart failure during the prediction window. They in fact use a variation of the RNN known as the Gated Recurrent Unit (GRU) which has been shown to allow for better information flow across long sequences.</li>
+<li>The vectors used as input to the baselines as well as the ones used to represent each vector in the sequence for the RNN model are sparse, meaning they have a lot of entries which are zero (as opposed to dense vectors). The authors propose a solution by pre-training event embeddings, or dense vectors, on all of their medical data using a method known as skip-gram. This model represents each event as a learnable vector such that words that are used in the same contexts have similar representations in vector space (see <a href="https://cs224d.stanford.edu/lecture_notes/notes1.pdf">Stanford’s CS224D notes</a> for more info).</li>
+<li>The paper finds that the RNN model outperforms other ML methods (SVMs, kNNs, logistic regression), especially when the observation window is long (12-month vs 9-month), indicating that the RNN can exploit temporal information effectively. In addition, the work also shows that pretraining the medical event vectors using skip-grams improves the performance of all models!</li>
+</ul>
+
+                
+                    
+    <hr />
+    <h3>Comments:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+                
+            </div>
+            <div class="col-md-3">
+                <h2> Also Read </h2>
+                <hr>
+                
+                    <div class="post-preview">
+    <a href="/mlx/treatment-effects/">
+        <h1 class="post-title archive">
+            Treatment Effects with Decision Trees
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 6th 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/risk-stratification/">
+        <h1 class="post-title archive">
+            Risk Stratification For Patient Care
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 2nd 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/survival-analysis/">
+        <h1 class="post-title archive">
+            Survival Analysis
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 3rd 2017
+    </p>
+</div>
+                
+                <hr>
+                
+                    
+
+
+<a href="/mlx/tags/healthcare/">#healthcare</a>
+
+
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                        <li>
+                            <a href="https://twitter.com/pranavrajpurkar" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/rajpurkar/mlx" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="mailto:pranavsr@cs.stanford.edu" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/mlx/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="/mlx/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'mlx-2';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script src="/mlx/bower_components/MathJax/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+
+</body>
+
+</html>

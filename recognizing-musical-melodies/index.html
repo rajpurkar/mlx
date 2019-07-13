@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="A blog for machine learning experiments.">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Pranav Rajpurkar">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Recognizing Musical Melodies for Secure Audio Pairing"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="A blog for machine learning experiments." />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="mlx"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="rajpurkar>" />
+    
+
+    
+        <link rel="icon" type="image/png" href="/mlx/img/favicon.png">
+    
+
+    <!-- Title -->
+    
+    <title>Recognizing Musical Melodies for Secure Audio Pairing - mlx</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/mlx/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/mlx/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/mlx/bower_components/lato-font/css/lato-font.min.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-106613516-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mlx/">mlx</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/mlx/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/mlx/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rajpurkar/mlx">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/mlx/img/bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="post-heading">
+                    <h1>Recognizing Musical Melodies for Secure Audio Pairing</h1>
+                    
+                    <h2 class="post-subheading">
+                        Machine Learning for Computer Security
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            By Pranav Rajpurkar, Brad Girardeau on
+                        
+                        October 2nd 2016
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Gallery -->
+            
+            <!-- Post Main Content -->
+            <div class="col-md-9">
+                <p>In this post, we share our work at the intersection of machine learning and security. We look at <em>secure device pairing</em>, a task in which we are trying to establish a secure connection between two devices wirelessly. We establish a protocol in which the devices can be paired securely if each device can recognize a melody played by the other. To enable this application, we build a machine learning system that can perform melody recognition. </p>
+<p>We begin this post with a focus on the security application: describing the secure device pairing problem, highlighting drawbacks of existing solutions, and finally demonstrating how an audio-based pairing approach can be used to overcome them. In the second half of the post, we focus on the machine learning task of melody recognition: sharing our experience exploring different approaches to the task, and detailing a solution that performs well even in noisy environments.</p>
+<p>Listen to the melody below, which consists of 8-notes played in sequence (in a noisy environment) – can you identify any of them? The system we build later in the post gets them all right.</p>
+<iframe width='100%' height='160' scrolling='no' frameborder='no' src='https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fpranav-rajpurkar%2Fsample-musical-melody&auto_play=false&hide_related=true&show_comments=true&show_user=true&show_reposts=false&color=ff5500&show_artwork=true'></iframe>
+<h1 id="Secure-Device-Pairing"><a href="#Secure-Device-Pairing" class="headerlink" title="Secure Device Pairing"></a>Secure Device Pairing</h1><p>Most of us have used Bluetooth at some point in our lives. We are familiar with the routine of “pairing” two devices, like a phone and car, which finishes with entering a PIN or comparing some numbers. The goal of this last step, of course, is <em>security</em>. You don’t want someone next to you to be able to eavesdrop on you or trick you into connecting to them to steal your data. However this security step is often annoying (typing a PIN) or easily skippable (comparing numbers). This problem promises to become increasingly common as new applications like smart cars and connected homes continue linking things in the physical world together.</p>
+<p>We set out to create a better way of securing device pairing in the physical world. Instead of typing a PIN or comparing numbers, a simple audio melody is played and automatically recognized. An attacker would only be able to subvert the pairing by playing their own melody, which would be easily noticed. Otherwise we do not need to do anything.</p>
+<p>So how does this work? How can entering a PIN, comparing numbers, or recognizing an audio sequence make things secure? Let’s first learn about secure device pairing in general, before delving into the details of how we use audio to improve the process.</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>Like many secure communication discussions, we start with our characters <a href="https://en.wikipedia.org/wiki/Alice_and_Bob">Alice and Bob</a>. In this case, Alice has a device she would like to pair with a device of Bob’s that she hasn’t connected to before. At the end of the pairing, the goal is for Alice’s device and Bob’s device to share a secret key that only they know, even if there are attackers who listen or interfere. The devices would then be securely paired because they can use the secret key to encrypt all of their communication so that no one else will be able to eavesdrop on or tamper with them.</p>
+<p>There are two types of attackers that Alice and Bob need to be concerned with: a passive attacker we’ll call Eve and an active attacker Mallory. Eve, as a passive attacker, can only eavesdrop on, not tamper with the communication nor send messages herself. If Alice and Bob only need to defend against Eve, they can use the <a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Diffie-Hellman protocol</a> to safely create a shared secret key. The challenge is when Mallory, an active attacker, is involved. While Mallory can’t subvert the Diffie-Hellman key exchange directly, Mallory can insert herself between Alice’s device and Bob’s device, tricking Alice’s device and Bob’s device into separately pairing with Mallory’s device. Both Alice and Bob will now think they share a secret key with each other, while in reality Alice and Mallory share one key, while Bob and Mallory share a different key. This allows Mallory to eavesdrop on or impersonate Alice and Bob.</p>
+<p>To prevent Mallory’s attack, we need to add some way for Alice and Bob to be sure they are connecting to each other, not an attacker, for the Diffie-Hellman key exchange. There are several ways to do this using a third party that Alice and Bob both trust to verify each other’s identity. However, for devices and protocols like Bluetooth, finding a single third party everyone will trust is impractical. This is where <a href="https://www.iacr.org/archive/crypto2005/36210303/36210303.pdf">Short Authenticated Strings</a> can help.</p>
+<h3 id="Short-Authenticated-Strings-SAS"><a href="#Short-Authenticated-Strings-SAS" class="headerlink" title="Short Authenticated Strings (SAS)"></a>Short Authenticated Strings (SAS)</h3><p>A short authenticated string uses the idea that certain channels are naturally “authenticated” even if they are not secret. This means we know we are communicating with another party because an attacker can’t tamper with messages across this channel or will be detected if they do. For example, if Alice and Bob have a face to face conversation, they know they are communicating to the right person and could tell (and ignore) if Mallory tried to shout a different message at them. Even over the phone, Alice and Bob might be able to recognize each other’s voice, so they can “authenticate” information exchanged during the conversation.</p>
+<p>Going back to the Bluetooth pairing example at the beginning, entering a PIN and comparing numbers also form authenticated channels. Alice sees the PIN on Bob’s device and types it into her device or compares it with a PIN on her device; an attacker presumably cannot tamper with Alice’s vision, so these channels allow short strings like the PIN to be authenticated.</p>
+<p>Once we have an authenticated channel, we can use it to authenticate Alice and Bob’s Diffie-Hellman key exchange. All they need to do is ensure that they have agreed on the same key, since Mallory’s attacks will cause them to have different keys. One way to do this is by sending a hash, or summary, of the key over the authenticated channel. However, the hash in this case is too long for this to be practical; no one will compare or type 100 characters just to pair their phone with a car or computer. We need <em>short</em> authenticated strings, and it turns out there is a protocol that lets us authenticate a message using much shorter authenticated strings.</p>
+<h3 id="Secure-Audio-Pairing"><a href="#Secure-Audio-Pairing" class="headerlink" title="Secure Audio Pairing"></a>Secure Audio Pairing</h3><p>However typing a PIN or comparing numbers still require a lot of active human intervention. Instead, we can use audio as a authenticated channel and automate the process. If we encode the short authenticated string as melodic notes, Alice’s device can simply the play the sound and Bob’s device can recognize it. If an attacker tries to interfere with the audio channel, Alice or Bob will hear it, so the audio channel is naturally authenticated.</p>
+<p>Putting the steps together, two users can pair devices securely by doing a standard key exchange over a normal communications channel like Bluetooth, then authenticate the shared key for the connection with a Short Authenticated String protocol. The Short Authenticated String protocol involves each device playing a short audio sequence, which the other device must recognize. No intervention beyond passively listening is required by the users, as the only attack they need to detect is if they hear a third unexpected device playing audio. From the user’s perspective, this is an easy and seamless process.</p>
+<h1 id="Exploring-Approaches-to-Melody-Recognition"><a href="#Exploring-Approaches-to-Melody-Recognition" class="headerlink" title="Exploring Approaches to Melody Recognition"></a>Exploring Approaches to Melody Recognition</h1><p>A key part of the secure audio pairing system is recognizing the audio notes played, which can be a challenging task in noisy environments. We use machine learning for melody recognition. To recognize a melody is to recognize the sequence of notes that constitute it. We seek to develop a system which can listen to an audio file and recognize the melody. An example recognition of a four-note melody is $[A, C, E, G]$. If we have sheet music for an audio file, we know exactly when each note is played, and for how long. In this case, the input audio and labellings are said to <em>have alignment</em>, and the data is said to be <em>strongly labelled</em>. The harder case is when we have the sequence of notes that constitute the melody, but no information on when each note is played. In this case, input data and labellings are said to have <em>unknown alignment</em>, the data is said to be <em>weakly labelled</em>, and the task is called <em>temporal classification</em>. We often encounter temporal classification in speech recognition, where we may know from an audio recognition that a person says “hello world”, but we don’t know the precise moments when each of the words (or phonemes/graphemes) is uttered.</p>
+<h2 id="Without-Alignment-Information"><a href="#Without-Alignment-Information" class="headerlink" title="Without Alignment Information"></a>Without Alignment Information</h2><p>When the alignment between audio data and melodies is not given, a model must map an input sequence of audio data to an output sequence of discrete notes that constitute the melody – a temporal classification task.</p>
+<p>In the early 2000s, graphical models such as Hidden Markov Models (HMMs) and Conditional Random Fields (CRFs) were the reigning kings for temporal classification. At that time, Recurrent Neural Networks (RNNs), although able to provide a powerful mechanism for time series modelling, were not directly applicable to temporal classification. RNNs had an API constraint: they required target outputs for each point in the training sequence. Temporal classification with a single neural network was a feat yet unachieved.</p>
+<p>In 2006, <a href="http://www.cs.toronto.edu/~graves/icml_2006.pdf">Alex Graves et al.</a> introduced <em>Connectionist Temporal Classification (CTC)</em>, a way to label sequence data with neural networks without need for either alignment data or post-processing. CTC (also called CTC-RNN to make clear that the choice of network is recurrent) defines a differentiable loss function that calculates the probability of a melody conditioned on the input as a sum over all possible alignments of the audio input with the notes in the melody. The CTC network has since evolved, and is used in state-of-the-art speech recognitions systems (see <a href="http://arxiv.org/pdf/1512.02595v1.pdf">DeepSpeech2</a>) today.</p>
+<h2 id="With-Alignment-Information"><a href="#With-Alignment-Information" class="headerlink" title="With Alignment Information"></a>With Alignment Information</h2><p>One simple way to use alignment information between audio and notes is to split the audio data into segments such that each audio segment corresponds to one output class (note). A model can then learn to map from an audio segment to a single note, as opposed to a sequence of notes. Rather than recognize the melody all at once from the entire audio sequence, we can thus recognize each note that constitutes it one audio-segment at a time. This idea is more generally called the sliding window approach, is commonly used in pedestrian detection and photo OCR (see <a href="https://www.coursera.org/learn/machine-learning/lecture/bQhq3/sliding-windows">Coursera video by Andrew Ng on sliding windows</a>.</p>
+<p>A major drawback of having models work on segments, rather than on the entire sequence is that context information is lost. Just as certain sequences of words make much more sense than others in accordance with the rules of syntax and grammar, certain sequences of notes are more likely than others in terms of musicality. Any model that operates at the level of segments (or words) rather than melodies (or sentences) signs off any benefit that it may have acquired from context. A popular workaround is to hybridize segment-level models, responsible for making local predictions, with HMMs, responsible for modelling global behaviors of data.</p>
+<p>Models can also learn to recognize the entire melody from the audio sequence without any segmentations. In recent years, working with sequential inputs and outputs for neural networks has become extraordinarily effective, and has led to the popularization of the <em>sequence-to-sequence learning</em> paradigm.</p>
+<h1 id="A-System-for-Melody-Recognition"><a href="#A-System-for-Melody-Recognition" class="headerlink" title="A System for Melody Recognition"></a>A System for Melody Recognition</h1><p>While the CTC / sequence-to-sequence class of approaches to the problem of melody recognition seemed promising, their implementations (at time of writing) were hard to get to work well. Nevertheless, this still seems a promising direction for future work, given their results in speech recognition.</p>
+<p>We turn instead to the pre-CTC era approach of sliding windows, where a model detects individual notes in an audio segment (window) that slides through the audio sequence; the notes outputted are then preprocessed to get the melody. We’ll see that sliding windows can work incredibly well with the right choice of segment-level model.</p>
+<p>Let’s start understanding what the system we will implement will do. We can think of the system as having three sequential components:</p>
+<ul>
+<li><strong>Preprocessing</strong>: Segment the audio sequence by sliding a small window across time.</li>
+<li><strong>Model</strong>: Recognize the note that constitutes each segment.</li>
+<li><strong>Postprocessing</strong>: Combine the note outputs over all of the windows to get the melody.</li>
+</ul>
+<img src="/mlx/recognizing-musical-melodies/sliding_window.png" alt="Taking sliding time windows over the audio, a model identifies the presence of single notes in each of the segments, the outputs of which are postprocessed to get the melody." title="Taking sliding time windows over the audio, a model identifies the presence of single notes in each of the segments, the outputs of which are postprocessed to get the melody."><span class="image-caption">Taking sliding time windows over the audio, a model identifies the presence of single notes in each of the segments, the outputs of which are postprocessed to get the melody.</span>
+<p>The preprocessing step is straightforward: one simply needs to do is find a window size large enough that it can contain the entirety of one note, but small enough so it doesn’t contain two notes. In the domain object detection, where different objects can be of different scales, it is common to find sliding windows of multiple scales being used. However, in this application, we can get away with setting a constant window size, because the notes are of the same length.</p>
+<p>The model and postprocessing step, then, are the meat of the difficulty. The model is responsible for recognizing the note that constitutes each segment, and the postprocessing for combining the outputs of the model to infer the underlying melody.</p>
+<h2 id="A-Model-for-Recognizing-Notes-in-Audio-Segments"><a href="#A-Model-for-Recognizing-Notes-in-Audio-Segments" class="headerlink" title="A Model for Recognizing Notes in Audio Segments"></a>A Model for Recognizing Notes in Audio Segments</h2><p>Our model will take a segment of audio as input and determine which note, if any, was played in that segment. One way to formulate this task is as a multiclass classification problem with $ n + 1 $ classes, where the extra note class denotes silence or background noise. An alternative, often seen in character recognition, is to break the task into detection and recognition steps such that a detector decides whether or not a segment contains a note and a recognizer then classifying the positive detected note into one of $n$ classes. In our experiments, we found that posing the task as an $ n + 1 $ class classification worked better.</p>
+<p>We haven’t yet defined what an audio segment is. We can think of an audio segment as a sequence of samples $[s_1, s_2, … s_t]$, where each sample is a two-dimensional real-valued vector $[ v_l , v_r ]$. Here, the values represent the instantaneous amplitude of the audio signal in the left and right audio channels. For the purposes of our example, let’s use the following length-3 sample input: $x = [ [1.0, 4.0] , [2.0, 5.0], [3.0, 3.0] ] $. Our model maps this input to a probability distribution over all the possible notes. If the possible outputs were A, B, C (and the noise class), then a sample output might look like $ y = [noise: 0.1, A: 0.2, B: 0.6, C: 0.1]$.</p>
+<h3 id="Recurrent-Neural-Networks-to-Model-Temporal-Dependencies"><a href="#Recurrent-Neural-Networks-to-Model-Temporal-Dependencies" class="headerlink" title="Recurrent Neural Networks to Model Temporal Dependencies"></a>Recurrent Neural Networks to Model Temporal Dependencies</h3><p>The temporal properties of audio make it inherently sequential. Recurrent Neural Networks (RNNs) are a special class of neural networks that can exploit this sequential structure, using information from the past to guide decision making in the present.</p>
+<img src="/mlx/recognizing-musical-melodies/rnn-musical.png" alt="The recurrent network takes in a sample at each time step as input (red), and at the last time step, produces a probability distribution over the possible notes as output (blue). In the hidden (green) layer, the network is propagating information through timesteps." title="The recurrent network takes in a sample at each time step as input (red), and at the last time step, produces a probability distribution over the possible notes as output (blue). In the hidden (green) layer, the network is propagating information through timesteps."><span class="image-caption">The recurrent network takes in a sample at each time step as input (red), and at the last time step, produces a probability distribution over the possible notes as output (blue). In the hidden (green) layer, the network is propagating information through timesteps.</span>
+<p>(See <a href="https://www.cs.toronto.edu/~graves/preprint.pdf">Alex Graves’ thesis</a> and <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy’s post</a> for some really cool RNN work)</p>
+<p>To an RNN, we feed in the input one audio sample at a time until we’ve exhausted all of the samples in the audio segment. Typically, when one uses an RNN network, the specific variant of recurrent network used is an LSTM, which is better at handling longer sequences of input. It is also typical to stack multiple hidden (green) LSTM layers on top of each other to form a <em>deep network</em>, so that each subsequent layer learns a slightly more abstract representation of the data, which turns out to be useful in improving the accuracy of the classification. Once all of the samples in the segment are fed into the network, the network outputs scores for each note, which are normalized to translate to probabilities for each class – how likely it was that any of the notes were played in that specific segment.</p>
+<p>We thus train an RNN on several hours of synthetically generated audio data. One effective trick used for training the network, also commonly seen in speech recognition, is to mix different kinds of noise on the clean audio data. With this, we are not only able to augment the size of the dataset, but also make the network more robust to noisy audio environmments.</p>
+<h3 id="Postprocessing-Sliding-Window-Outputs-To-Label-Sequences"><a href="#Postprocessing-Sliding-Window-Outputs-To-Label-Sequences" class="headerlink" title="Postprocessing Sliding Window Outputs To Label Sequences"></a>Postprocessing Sliding Window Outputs To Label Sequences</h3><p>The model described above is trained to output a probability distribution over the possible classes for each segment of the sliding window. The final step is to combine the outputs of each of these segments to get the melody.</p>
+<img src="/mlx/recognizing-musical-melodies/rnn-probabilities.png" alt="Sliding window outputs over time show changing probabilities of classes across time." title="Sliding window outputs over time show changing probabilities of classes across time."><span class="image-caption">Sliding window outputs over time show changing probabilities of classes across time.</span>
+<img src="/mlx/recognizing-musical-melodies/post-nms.png" alt="Non-Maximum Suppression keeps the local maxima, which can be used to recover the underlying melody [Note A, Note B]" title="Non-Maximum Suppression keeps the local maxima, which can be used to recover the underlying melody [Note A, Note B]"><span class="image-caption">Non-Maximum Suppression keeps the local maxima, which can be used to recover the underlying melody [Note A, Note B]</span>
+<p>To recover the underlying melody from sliding window outputs, we use a variant of Non-Maximum Suppression (NMS). The basic idea of NMS is to look at each point in the sequence, and suppress neighbouring points that are smaller to zero. At the end of the NMS run, only the local maxima remain. Maxima separated by the silence / noise class can then be read off as the notes constituting the melody.</p>
+<h1 id="In-Summary"><a href="#In-Summary" class="headerlink" title="In Summary"></a>In Summary</h1><p>We have described a simple machine learning approach to recognize musical melodies with a concrete application in secure audio pairing. For the learning system, we use a sliding window to break a large chunk of audio into smaller segments, run a Recurrent Neural Network – which captures temporal properties of audio – over each of those segments to make segment-level predictions, and finally use Non-Maximum Suppression to postprocess the outputs. This system is a part of a security protocol which involves devices establishing a secure connection with each other by playing a short audio sequence, which the other device must recognize.</p>
+<p><em>This is work done at Stanford University, advised by Professor Dan Boneh</em></p>
+
+                
+                    
+    <hr />
+    <h3>Comments:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+                
+            </div>
+            <div class="col-md-3">
+                <h2> Also Read </h2>
+                <hr>
+                
+                    <div class="post-preview">
+    <a href="/mlx/treatment-effects/">
+        <h1 class="post-title archive">
+            Treatment Effects with Decision Trees
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 6th 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/visualizing-cnns/">
+        <h1 class="post-title archive">
+            Visualizing A Convolutional Neural Network's Predictions
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 18th 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/risk-stratification/">
+        <h1 class="post-title archive">
+            Risk Stratification For Patient Care
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 2nd 2017
+    </p>
+</div>
+                
+                <hr>
+                
+                    
+
+
+<a href="/mlx/tags/security/">#security</a>
+
+
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                        <li>
+                            <a href="https://twitter.com/pranavrajpurkar" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/rajpurkar/mlx" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="mailto:pranavsr@cs.stanford.edu" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/mlx/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="/mlx/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'mlx-2';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script src="/mlx/bower_components/MathJax/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+
+</body>
+
+</html>

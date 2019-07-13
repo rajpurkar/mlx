@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="A blog for machine learning experiments.">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Pranav Rajpurkar">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Survival Analysis"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="A blog for machine learning experiments." />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="mlx"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="rajpurkar>" />
+    
+
+    
+        <link rel="icon" type="image/png" href="/mlx/img/favicon.png">
+    
+
+    <!-- Title -->
+    
+    <title>Survival Analysis - mlx</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/mlx/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/mlx/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/mlx/bower_components/lato-font/css/lato-font.min.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-106613516-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mlx/">mlx</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/mlx/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/mlx/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rajpurkar/mlx">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/mlx/img/bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="post-heading">
+                    <h1>Survival Analysis</h1>
+                    
+                    <h2 class="post-subheading">
+                        Learnings from a few papers
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            By Pranav Rajpurkar on
+                        
+                        September 3rd 2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Gallery -->
+            
+            <!-- Post Main Content -->
+            <div class="col-md-9">
+                <p>Survival analysis concerns itself with predicting the time until the occurrence of an event, such as death, or onset of a disease. We’ll look at a few papers on survival analysis.</p>
+<p>The first paper we’ll take a look at is <a href="http://stm.sciencemag.org/content/7/299/299ra122">A targeted real-time early warning score (TREWScore) for septic shock</a>.</p>
+<ul>
+<li>This paper identifies sepsis (the presence in tissues of harmful bacteria and their toxins) and septic shock (low blood pressure due to sepsis) as important to identify and treat early. Their goal is to build a prediction model that uses EHR data to “predict septic shock with high sensitivity and specificity many hours before onset” for patients identified as having sepsis.</li>
+<li>The authors point out that predictive methods need to account for the censoring effects of clinical intervention on patient outcomes: if a patient would have developed septic shock, but was treated beforehand, the patient would be treated as a negative case. Therefore, “methods that assume that these patients are negative [cases] … can yield scores that underestimate the probability of a positive outcome.” If a patient with severe sepsis received treatment for septic shock but never developed shock, they are referred to as <strong>right-censored after treatment</strong>; if they experienced septic shock after receiving treatment for septic shock, they’re called <strong>interval-censored</strong>.</li>
+<li>The work develops a TREWScore, “obtained by training a model that estimates the time to an adverse event using supervised learning.” For each individual, the risk of septic shock is calculated at each time point to get a risk trajectory; an individual is “identified as being at high risk of septic shock if his or her risk trajectory ever rose above the detection threshold before the onset of septic shock.”</li>
+<li>A Cox proportional hazards model, one of the most popular models for survival analysis, is used, with “the time until the onset of septic shock as the supervisory signal” with lasso regularization to “automatically select a sparse subset of features that are most predictive of the labeled; interval censoring is handled using a <a href="https://en.wikipedia.org/wiki/Imputation_(statistics)#Multiple_imputation">multiple imputation approach</a>.</li>
+<li>The model identified patients before the onset of septic shock with an AUC of 0.83, at a median of 28.2 hours before onset, outperforming a baseline metric used to identify medical patients (AUC of 0.73).</li>
+</ul>
+<p>The next paper we’ll look at is <a href="http://proceedings.mlr.press/v56/Ranganath16.pdf">Deep Survival Analysis</a>.</p>
+<ul>
+<li>This paper identifies 2 limitations of traditional approaches to survival analysis: (1) they cannot handle missing covariates (variable that is predictive of the outcome), and (2) they require aligning patients by a starting event such as the onset of condition.</li>
+<li>The works introduces a “joint model for both the covariates and the survival times, where the covariates and survival times are specified conditioned on a latent process” that is based on deep exponential families. Their model, called “Deep Survival Analysis” has the advantage that: (1) it models “covariates and survival time in a Bayesian framework”, thus making it easier to work with the characteristically sparse and censored EHR data and (2) “observations are aligned by their failure time” rather than enforcing an artificial start alignment for patients.</li>
+<li>The algorithm is compared against the Framingham CHD risk score, which estimates the 10-year coronary heart disease risk of an individual based on age, sex, LDL cholesterol, HDL cholesterol, blood pressure, diabetes, and smoking.</li>
+<li>Because the data has censorship (information is incomplete), loss functions like mean-squared-error cannot be used, and a measure like concordance index, also known as the c-index, needs to be used. The concordance measure evaluates the accuracy of the ordering of predicted time.</li>
+<li>On the task of “stratifying patients according to the risk of developing coronary heart disease (CHD)”, the Baseline Framingham Risk Score got a concordance of 65.57%, while Deep Survival Analysis yielded a 73.11% concordance. </li>
+</ul>
+<p>The last paper we’ll look at is <a href="http://mucmd.org/CameraReadySubmissions/13%5CCameraReadySubmission%5CSubmission%2013%20-%20Forte%20et%20al..pdf">Predicting long-term mortality with first-week post-operative data after Coronary Artery Bypass using Machine Learning models</a></p>
+<ul>
+<li>This paper compares ML methods to predict 5-year mortality in patients who underwent Coronary Artery Bypass Graft.</li>
+<li>Cox regression is used as a baseline for comparison against a Gradient Boosting Machine (GBM), Random Forest (RF), SVM, weighted-KNN, and linear regression.</li>
+<li>The relative importance of the most important variables for the best RF and GBM models is obtained by excluding that variable and measuring how much accuracy decreases.</li>
+<li>The GBM algorithm is found to be the most accurate (AUC 0.767) followed by RF (AUC 0.760). Cox regression, fitted with a lasso penalty, was the least accurate (AUC 0.644).</li>
+</ul>
+<p><em>The first two papers were part of the reading list for the MIT course on ML for healthcare (2017) taught by Professor David Sontag. The last paper was part of the Machine Learning For Healthcare Conference (2017).</em></p>
+
+                
+                    
+    <hr />
+    <h3>Comments:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+                
+            </div>
+            <div class="col-md-3">
+                <h2> Also Read </h2>
+                <hr>
+                
+                    <div class="post-preview">
+    <a href="/mlx/treatment-effects/">
+        <h1 class="post-title archive">
+            Treatment Effects with Decision Trees
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 6th 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/risk-stratification/">
+        <h1 class="post-title archive">
+            Risk Stratification For Patient Care
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 2nd 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/arrhythmia-detection/">
+        <h1 class="post-title archive">
+            Arrhythmia Detection
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 13th 2017
+    </p>
+</div>
+                
+                <hr>
+                
+                    
+
+
+<a href="/mlx/tags/healthcare/">#healthcare</a>
+
+
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                        <li>
+                            <a href="https://twitter.com/pranavrajpurkar" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/rajpurkar/mlx" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="mailto:pranavsr@cs.stanford.edu" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/mlx/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="/mlx/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'mlx-2';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script src="/mlx/bower_components/MathJax/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+
+</body>
+
+</html>

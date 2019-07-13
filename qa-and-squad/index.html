@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="A blog for machine learning experiments.">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Pranav Rajpurkar">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="The Stanford Question Answering Dataset"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="A blog for machine learning experiments." />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="mlx"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="rajpurkar>" />
+    
+
+    
+        <link rel="icon" type="image/png" href="/mlx/img/favicon.png">
+    
+
+    <!-- Title -->
+    
+    <title>The Stanford Question Answering Dataset - mlx</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/mlx/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/mlx/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/mlx/bower_components/lato-font/css/lato-font.min.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-106613516-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mlx/">mlx</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/mlx/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/mlx/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rajpurkar/mlx">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/mlx/img/bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="post-heading">
+                    <h1>The Stanford Question Answering Dataset</h1>
+                    
+                    <h2 class="post-subheading">
+                        Background, Challenges, Progress
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            By Pranav Rajpurkar on
+                        
+                        April 3rd 2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Gallery -->
+            
+            <!-- Post Main Content -->
+            <div class="col-md-9">
+                <p>Question answering is an important NLP task and longstanding milestone for artificial intelligence systems. QA systems allow a user to ask a question in natural language, and receive the answer to their question quickly and succinctly. Today, QA systems are used in search engines and in phone conversational interfaces, and are pretty good at answering simple factoid questions. But on more complex questions, these usually only go so far as to return a list of snippets that we the users then have to browse through to have our question answered.</p>
+<p>The ability to read a piece of text and then answer questions about it is called reading comprehension. Reading comprehension is challenging for machines, requiring both understanding of natural language and knowledge about the world.</p>
+<p>How can we get a machine to make progress on the challenging task of reading comprehension? Historically, large, realistic datasets have played a critical role in driving fields forward – one famous example is ImageNet for visual recognition.</p>
+<p>In reading comprehension, we mainly find two kinds of datasets: those that are automatically generated, and those that are manually generated. The automatically generated datasets are cloze style, where the task is to fill in a missing word or entity, and is a clever way to generate datasets that test reading skills. The manually generated datasets follow a setup that is closer to the end goal of question answering, and other downstream QA applications. However, these manually generated datasets are usually small, and insufficient in scale for data intensive deep learning methods.</p>
+<p>To address the need for a large and high-quality reading comprehension dataset, we introduce the Stanford Question Answering Dataset, also known as SQuAD. At 100,000 question-answer pairs, it is almost two orders of magnitude larger than previous manually labeled reading comprehension datasets such as MCTest.</p>
+<h2 id="The-SQuAD-setting"><a href="#The-SQuAD-setting" class="headerlink" title="The SQuAD setting"></a>The SQuAD setting</h2><p>The reading passages in SQuAD are from high-quality wikipedia articles, and cover a diverse range of topics across a variety of domains, from music celebrities to abstract concepts. A passage is a paragraph from an article, and is variable in length. Each passage in SQuAD has accompanying reading comprehension questions. These questions are based on the content of the passage and can be answered by reading through the passage. Finally, for each question, we have one or more answers.</p>
+<p>One defining characteristic of SQuAD is that the answers to all of the questions are<br>segments of text, or spans, in the passage. These can be single or multiple words, and are not limited to entities – any span is fair game.</p>
+<img src="/mlx/qa-and-squad/example-squad.png" alt="Answers are spans in the passage" title="Answers are spans in the passage"><span class="image-caption">Answers are spans in the passage</span>
+<p>This is quite a flexible setup, and we find that a diverse range of questions can be asked in the span setting. Rather than having a list of answer choices for each question, systems must select the answer from all possible spans in the passage, thus needing to cope with a fairly large number of candidates. Spans comes with the added bonus that they are easy to evaluate.</p>
+<p>In addition, the span-based QA setting is quite natural. For many user questions into search engines, open-domain QA systems are often able to find the right documents that contain the answer. The challenge is the last step of “answer extraction”, which is to find the shortest segment of text in the passage or document that answers the question.</p>
+<p>Before we dive into the dataset, let’s understand the data collection process. SQuAD is a large crowdsourced effort. On each paragraph, crowdworkers were tasked with asking and answering several questions on the content of that passage. The questions had to be entered in a text field, and the answers highlighted in the passage. To guide the workers, we had examples of good and bad questions. Finally, crowdworkers were encouraged to ask questions in their own words, without copying word phrases from the passage. The result – a more challenging dataset, where simple string matching techniques will often fail to find correspondences between passage words and question words.</p>
+<img src="/mlx/qa-and-squad/crowdsourcing.png" alt="SQuAD Data Collection Interface" title="SQuAD Data Collection Interface"><span class="image-caption">SQuAD Data Collection Interface</span>
+<h2 id="A-taste-of-challenges-in-SQuAD"><a href="#A-taste-of-challenges-in-SQuAD" class="headerlink" title="A taste of challenges in SQuAD"></a>A taste of challenges in SQuAD</h2><p>Because crowdworkers are asked to pose questions in their own words, question words are often synonyms of words in the passage – this is lexical variation because of synonymy. In a few hundred examples that we manually annotated, this case was fairly frequent, necessary in about 33% of questions.</p>
+<img src="/mlx/qa-and-squad/lexical-variation-synonymy.png" alt="In this example, a QA system would have to recognize that “referred” and “call” mean the same thing." title="In this example, a QA system would have to recognize that “referred” and “call” mean the same thing."><span class="image-caption">In this example, a QA system would have to recognize that “referred” and “call” mean the same thing.</span>
+<p>The second type of reasoning we look at is lexical variation that needs external knowledge to reason about.</p>
+<img src="/mlx/qa-and-squad/lexical-variation-knowledge.png" alt="To answer this question, QA systems have to infer that the European Parliament and the Council of the European Union are government bodies. Such questions are difficult to answer because they go beyond the passage." title="To answer this question, QA systems have to infer that the European Parliament and the Council of the European Union are government bodies. Such questions are difficult to answer because they go beyond the passage."><span class="image-caption">To answer this question, QA systems have to infer that the European Parliament and the Council of the European Union are government bodies. Such questions are difficult to answer because they go beyond the passage.</span>
+<p>Other than lexical variation, we also have syntactic variation, which compares the syntactic structure of the question with the syntactic structure of the passage.</p>
+<img src="/mlx/qa-and-squad/no-syntactic.png" alt="Here’s a question which does not require handling of syntactic variation. The question and the passage have matching syntactic structures ‘who went to wittenberg’, ‘students thronged to wittenberg’ even though the the question uses the word ‘went’ and the passage uses the word ‘thronged’. Questions without syntactic variation are relatively easy to answer because the syntactic structure gives all of the information needed to answer it." title="Here’s a question which does not require handling of syntactic variation. The question and the passage have matching syntactic structures ‘who went to wittenberg’, ‘students thronged to wittenberg’ even though the the question uses the word ‘went’ and the passage uses the word ‘thronged’. Questions without syntactic variation are relatively easy to answer because the syntactic structure gives all of the information needed to answer it."><span class="image-caption">Here’s a question which does not require handling of syntactic variation. The question and the passage have matching syntactic structures ‘who went to wittenberg’, ‘students thronged to wittenberg’ even though the the question uses the word ‘went’ and the passage uses the word ‘thronged’. Questions without syntactic variation are relatively easy to answer because the syntactic structure gives all of the information needed to answer it.</span>
+<img src="/mlx/qa-and-squad/syntactic.png" alt="Here is a case which does exhibit syntactic variation. Comparing the parse trees of the question and the sentence in the passage, we find that their structure is fairly different. Reasoning about syntactic variation is required very frequently, necessary in over 60% of the questions that we annotated." title="Here is a case which does exhibit syntactic variation. Comparing the parse trees of the question and the sentence in the passage, we find that their structure is fairly different. Reasoning about syntactic variation is required very frequently, necessary in over 60% of the questions that we annotated."><span class="image-caption">Here is a case which does exhibit syntactic variation. Comparing the parse trees of the question and the sentence in the passage, we find that their structure is fairly different. Reasoning about syntactic variation is required very frequently, necessary in over 60% of the questions that we annotated.</span>
+<p>Finally there is multi-sentence reasoning. For these kind of questions, we need to use multiple sentences in the passage to answer them. Much of the time, this involves conference resolution to identify the entity that a pronoun refers to.</p>
+<img src="/mlx/qa-and-squad/multisentence-reasoning.png" alt="An example case that requires multi-sentence reasoning." title="An example case that requires multi-sentence reasoning."><span class="image-caption">An example case that requires multi-sentence reasoning.</span>
+<p>Now that we’ve looked at the diversity of questions in SQuAD, let’s look at the diversity of answers in the dataset. Many QA systems exploit the expected answer type when answering a question. For instance, if there is a ‘how many’ question, a QA system might only consider answer candidates which are numbers. In SQuAD, answer types in SQuAD are wide-ranging, and often include non-entities and long phrases. This makes SQuAD more challenging and more diverse than datasets where answers are restricted to be of a certain type.</p>
+<img src="/mlx/qa-and-squad/answer-types.png" alt="Diversity of Answer Types." title="Diversity of Answer Types."><span class="image-caption">Diversity of Answer Types.</span>
+<h2 id="SQuAD-models-and-results"><a href="#SQuAD-models-and-results" class="headerlink" title="SQuAD models and results"></a>SQuAD models and results</h2><p>SQuAD uses two different metrics to evaluate how well a system does on the benchmark. The Exact Match metric measures the percentage of predictions that match any one of the ground truth answers exactly. The F1 score metric is a looser metric measures the average overlap between the prediction and ground truth answer.</p>
+<p>We first assess human performance on SQuAD. To evaluate human performance, we treat the one of the crowdsourced answers as the human prediction, and keep the other answers as ground truth answers. The resulting human performance score on the test set is 82.3% for the exact match metric, and 91.2% F1.</p>
+<img src="/mlx/qa-and-squad/human-performance.png" alt="Human Performance" title="Human Performance"><span class="image-caption">Human Performance</span>
+<p>To compare the performance of machines with the performance of humans, we implemented a few baselines. Our first baseline is a sliding window baseline, in we extract a large number of possible answer candidates from the passage, and then match a bag of words constructed from the question and candidate answer to the text to rank them. Using this baseline, we get an F1 score of 20.</p>
+<p>Compared with human performance on SQuAD, machines seem like a really long way with this baseline. But we haven’t yet incorporated any learning into our system. And we expect with a large dataset, learning can do well.</p>
+<p>To improve upon the sliding window baseline, we implemented a logistic regression baseline that scores candidate answers. The logistic regression uses a range of features – let’s touch on the features we found to be most important, namely the lexicalized features, and dependency tree path features.</p>
+<p>Let’s first look at lexicalized features.</p>
+<img src="/mlx/qa-and-squad/features-lexicalized-1.png" alt="Question word lemmas are combined with answer word lemmas to form pairs like these." title="Question word lemmas are combined with answer word lemmas to form pairs like these."><span class="image-caption">Question word lemmas are combined with answer word lemmas to form pairs like these.</span>
+<img src="/mlx/qa-and-squad/features-lexicalized-2.png" alt="We also combine question words with passage sentence words that are close to the answer." title="We also combine question words with passage sentence words that are close to the answer."><span class="image-caption">We also combine question words with passage sentence words that are close to the answer.</span>
+<p>Next, let’s look at dependency features.<br><img src="/mlx/qa-and-squad/features-dep.png" alt="We use the dependency tree path from the passage sentence words that occur in the question to the answer in the passage. This is optionally combined with the path from the wh-word to the same question word." title="We use the dependency tree path from the passage sentence words that occur in the question to the answer in the passage. This is optionally combined with the path from the wh-word to the same question word."><span class="image-caption">We use the dependency tree path from the passage sentence words that occur in the question to the answer in the passage. This is optionally combined with the path from the wh-word to the same question word.</span></p>
+<p>Using these features, we build a logistic regression model which sits between the sliding window baseline and human performance. We note that the model is able to select the sentence containing the answer correctly with 79.3% accuracy; hence, the bulk of the difficulty lies in finding the exact span within the sentence.</p>
+<img src="/mlx/qa-and-squad/baseline-performance.png" alt="Comparing Performances" title="Comparing Performances"><span class="image-caption">Comparing Performances</span>
+<p>Reading comprehension is a challenging task for machines. Comprehension refers to the ability to go beyond words, to understand the ideas and relationships between ideas conveyed in a text. The TREC paper, written at the start of the millennium, that introduced one of the early QA benchmarks, opens by mentioning that a successful evaluation requires a task that is neither too easy nor too difficult for the current technology. If the task is simple, all systems do well and nothing is learned. Similarly, if the task is too difficult, all systems do poorly and again nothing is learned.</p>
+<p>Since our paper came out in July 2016, we have witnessed significant improvements from deep learning models, and have had many submissions compete to get state of the art results. We expect that the remaining gap will be harder to close, but that such efforts will result in significant advances in machine comprehension of text.</p>
+<p>You can <a href="https://stanford-qa.com">check out the leaderboard, explore the dataset and visualize model predictions</a>. All of the data and experiments are on <a href="https://worksheets.codalab.org/worksheets/0x62eefc3e64e04430a1a24785a9293fff/">Codalab, which we use for official evaluation of models</a>.</p>
+
+                
+                    
+    <hr />
+    <h3>Comments:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+                
+            </div>
+            <div class="col-md-3">
+                <h2> Also Read </h2>
+                <hr>
+                
+                    <div class="post-preview">
+    <a href="/mlx/dialog-systems/">
+        <h1 class="post-title archive">
+            Dialog Systems
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        August 31st 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/treatment-effects/">
+        <h1 class="post-title archive">
+            Treatment Effects with Decision Trees
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 6th 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/visualizing-cnns/">
+        <h1 class="post-title archive">
+            Visualizing A Convolutional Neural Network's Predictions
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 18th 2017
+    </p>
+</div>
+                
+                <hr>
+                
+                    
+
+
+<a href="/mlx/tags/nlp/">#nlp</a> <a href="/mlx/tags/squad/">#squad</a>
+
+
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                        <li>
+                            <a href="https://twitter.com/pranavrajpurkar" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/rajpurkar/mlx" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="mailto:pranavsr@cs.stanford.edu" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/mlx/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="/mlx/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'mlx-2';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script src="/mlx/bower_components/MathJax/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+
+</body>
+
+</html>

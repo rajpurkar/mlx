@@ -1,0 +1,117 @@
+<h1 id="Contributing-to-MathJax"><a href="#Contributing-to-MathJax" class="headerlink" title="Contributing to MathJax"></a>Contributing to MathJax</h1><p>You are interested in giving us a hand? That’s awesome! We’ve put together some brief guidelines that should help you get started quickly and easily.</p>
+<p>There are lots and lots of ways to get involved, this document covers:</p>
+<ul>
+<li><a href="#reporting-an-issue">reporting an issue</a><ul>
+<li><a href="#bug-reports">bug reports</a></li>
+<li><a href="#feature-requests">feature requests</a></li>
+<li><a href="#change-requests">change requests</a></li>
+</ul>
+</li>
+<li><a href="#working-on-mathjax-core">working on MathJax core</a><ul>
+<li><a href="#key-branches--tags">key branches and tags</a></li>
+<li><a href="#submitting-pull-requests">submitting pull requests</a></li>
+<li><a href="#testing-and-quality-assurance">testing and quality assurance</a></li>
+<li><a href="#writing-documentation">writing documentation</a></li>
+<li><a href="#translation">translation</a></li>
+</ul>
+</li>
+<li><a href="#conduct">Conduct</a></li>
+</ul>
+<h2 id="Reporting-An-Issue"><a href="#Reporting-An-Issue" class="headerlink" title="Reporting An Issue"></a>Reporting An Issue</h2><p>If you’re about to raise an issue because you think you’ve found a<br>problem with MathJax, or you’d like to make a request for a new<br>feature in the codebase, or any other reason… please read this first.</p>
+<p>The GitHub issue tracker is the preferred channel for <a href="#bug-reports">bug reports</a>,<br><a href="#feature-requests">feature requests</a>, <a href="#change-requests">change requests</a> and <a href="#submitting-pull-requests">submitting pull<br>requests</a>, but please respect the following restrictions:</p>
+<ul>
+<li><p>Please <strong>search for existing issues</strong>. Help us keep duplicate issues<br>to a minimum by checking to see if someone has already reported your<br>problem or requested your idea.</p>
+</li>
+<li><p>Please <strong>do not</strong> use the issue tracker for personal support<br>requests (use <a href="https://groups.google.com/forum/#!forum/mathjax-users">the MathJax User Group</a>).</p>
+</li>
+<li><p>Please <strong>be civil</strong>. Keep the discussion on topic and respect the<br>opinions of others. See also our <a href="#conduct">Conduct Guidelines</a></p>
+</li>
+</ul>
+<h3 id="Bug-Reports"><a href="#Bug-Reports" class="headerlink" title="Bug Reports"></a>Bug Reports</h3><p>A bug is a <em>demonstrable problem</em> that is caused by the code in the repository.<br>Good bug reports are extremely helpful - thank you!</p>
+<p>Guidelines for bug reports:</p>
+<ol>
+<li><p><strong>Use the GitHub issue search</strong> &mdash; check if the issue has already been<br>reported.</p>
+</li>
+<li><p><strong>Check if the issue has been fixed</strong> &mdash; look for <a href="https://github.com/MathJax/MathJax/issues?&amp;page=1&amp;state=closed">closed issues in the<br>current milestone</a> or try to reproduce it<br>using the latest <code>develop</code> branch. Please note that we only pack MathJax for releases, so on the <code>develop</code> branch you have to use <code>/unpacked/MathJax.js</code> etc. to test.</p>
+</li>
+<li><p><strong>Share a live sample of the problem</strong> &mdash; without a live page it is usually impossible to debug problems; see also the Bug Report Template below.</p>
+</li>
+<li><p><strong>Isolate the problem</strong> &mdash; a live sample is a starting point but if you want to speed things up create a <a href="http://css-tricks.com/6263-reduced-test-cases/">reduced test<br>case</a>. Be specific about your setup (browser, OS versions etc). Use services like <a href="http://jsbin.com">jsbin</a>, <a href="http://codepen.io">CodePen</a>, <a href="http://jsfiddle.com">JSfiddle</a> to make collaboration on minimal test cases easier for everyone. Use the unpacked copy of MathJax (<code>[...]/unpacked/MathJax.js</code> etc.) for better debugging.</p>
+</li>
+<li><p><strong>Include a screenshot/cast as a last resort</strong> &mdash; Is your issue about a layout<br>or design feature / bug but hard to reproduce or isolate? Then please provide a screenshot or screencast. Tools like <a href="http://www.cockos.com/licecap/">LICEcap</a> or <a href="http://www.saucelabs.com">SauceLabs</a> allow you to quickly and easily record a screencasts. Make it an animated gif, embed it directly into your GitHub issue – kapow!</p>
+</li>
+<li><p>Use the Bug Report template below or <a href="https://github.com/MathJax/MathJax/issues/new?title=Bug%3A&amp;body=%23%23%23%20Issue%20Summary%0A%0A%23%23%23%20Steps%20to%20Reproduce%0A%0A1.%20This%20is%20the%20first%20step%0A%0AThis%20is%20a%20bug%20because...%0A%0A%23%23%23%20Technical%20details%0A%0A*%20MathJax%20Version%3A%20master%20-%20latest%20commit%3A%20%20INSERT%20COMMIT%20REF%0A*%20Client%20OS%3A%20%0A*%20Browser%3A%20%0A*%20">click this<br>link</a><br>to start creating a bug report with the template automatically.</p>
+</li>
+</ol>
+<p>A good bug report shouldn’t leave others needing to chase you up for<br>more information. Be sure to include the details of your environment.</p>
+<p>Here is a <a href="https://github.com/mathjax/MathJax/issues/820">real example</a></p>
+<p>Template Example (<a href="https://github.com/MathJax/MathJax/issues/new?title=Bug%3A&amp;body=%23%23%23%20Issue%20Summary%0A%0A%23%23%23%20Steps%20to%20Reproduce%0A%0A1.%20This%20is%20the%20first%20step%0A%0AThis%20is%20a%20bug%20because...%0A%0A%23%23%23%20Technical%20details%0A%0A*%20MathJax%20Version%3A%20master%20-%20latest%20commit%3A%20%20INSERT%20COMMIT%20REF%0A*%20Client%20OS%3A%20%0A*%20Browser%3A%20%0A*%20">click to use</a>):</p>
+<pre><code>Short and descriptive example bug report title
+
+### Issue Summary
+
+A summary of the issue and the browser/OS environment in which it occurs. If
+suitable, include the steps required to reproduce the bug.
+
+### Steps to Reproduce
+
+1. This is the first step
+2. This is the second step
+3. Further steps, etc.
+
+Any other information you want to share that is relevant to the issue
+being reported. Especially, why do you consider this to be a bug? What
+do you expect to happen instead?
+
+### Technical details:
+
+* MathJax Version: 2.3 (latest commit: f3aaf3a2a3e964df2770dc4aaaa9c87ce5f47e2c)
+* Client OS: Mac OS X 10.8.4
+* Browser: Chrome 29.0.1547.57
+</code></pre><h3 id="Feature-Requests"><a href="#Feature-Requests" class="headerlink" title="Feature Requests"></a>Feature Requests</h3><p>Feature requests are welcome. Before you submit one be sure to have:</p>
+<ol>
+<li>Read the<br><a href="https://github.com/mathjax/MathJax/wiki/Mathjax-roadmap">Roadmaps</a>,<br><strong>use the GitHub search</strong> and check the feature hasn’t already been<br>requested.</li>
+<li>Take a moment to think about whether your idea fits with the scope<br>and aims of the project, or if it might better fit being a <a href="https://github.com/mathjax/MathJax-third-party-extensions">custom<br>extension</a>.</li>
+<li>Remember, it’s up to <em>you</em> to make a strong case to convince the<br>project’s leaders of the merits of this feature. Please provide as<br>much detail and context as possible, this means explaining the use<br>case and why it is likely to be common.</li>
+<li>Clearly indicate whether this is a feature request for MathJax<br>core, input &amp; output jax, or extensions.</li>
+</ol>
+<h3 id="Change-Requests"><a href="#Change-Requests" class="headerlink" title="Change Requests"></a>Change Requests</h3><p>Change requests cover both architectural and functional changes to how<br>MathJax works. If you have an idea for a new or different dependency,<br>a refactor, or an improvement to a feature, etc - please be sure to:</p>
+<ol>
+<li><strong>Use the GitHub search</strong> and check someone else didn’t get there first</li>
+<li>Take a moment to think about the best way to make a case for, and<br>explain what you’re thinking. Are you sure this shouldn’t really be<br>a <a href="#bug-reports">bug report</a> or a <a href="#feature-requests">feature<br>request</a>?  Is it really one idea or is it many?<br>What’s the context? What problem are you solving? Why is what you<br>are suggesting better than what’s already there? Does it fit with<br>the Roadmap?</li>
+</ol>
+<h2 id="Working-on-MathJax-core"><a href="#Working-on-MathJax-core" class="headerlink" title="Working on MathJax core"></a>Working on MathJax core</h2><p>You want to contribute code? Fantastic! Let’s get you started.</p>
+<h3 id="Key-Branches-amp-Tags"><a href="#Key-Branches-amp-Tags" class="headerlink" title="Key Branches &amp; Tags"></a>Key Branches &amp; Tags</h3><p>To get it out of the way:</p>
+<ul>
+<li><strong><a href="https://github.com/MathJax/MathJax/tree/develop">develop</a></strong> is<br>the development branch. All work on the next release happens here so<br>you should generally branch off <code>develop</code>. Do <strong>NOT</strong> use this branch<br>for a production site. </li>
+<li><strong><a href="https://github.com/MathJax/MathJax">master</a></strong> contains the latest<br>release of MathJax. This branch may be used in production. Do<br><strong>NOT</strong> use this branch to work on MathJax’s source.</li>
+</ul>
+<h3 id="Submitting-Pull-Requests"><a href="#Submitting-Pull-Requests" class="headerlink" title="Submitting Pull Requests"></a>Submitting Pull Requests</h3><p>Pull requests are awesome. If you’re looking to raise a PR for<br>something which doesn’t have an open issue, please think carefully<br>about <a href="#reporting-an-issue">raising an issue</a> which your PR can close,<br>especially if you’re fixing a bug. This makes it more likely that<br>there will be enough information available for your PR to be properly<br>tested and merged.</p>
+<h5 id="Need-Help"><a href="#Need-Help" class="headerlink" title="Need Help?"></a>Need Help?</h5><p>If you’re not completely clear on how to submit / update / <em>do</em> Pull<br>Requests, please check out our <a href="https://github.com/mathjax/MathJax/wiki/Source-control-policies">source control<br>policies</a>. For<br>more insights, chech the excellent in depth <a href="https://github.com/TryGhost/Ghost/wiki/Git-Workflow">Git Workflow<br>guide</a> from<br>Ghost, in particular</p>
+<ul>
+<li><a href="https://github.com/TryGhost/Ghost/wiki/Git-workflow#commit-messages">Ghost Workflow guide: commit messages</a></li>
+</ul>
+<h3 id="Testing-and-Quality-Assurance"><a href="#Testing-and-Quality-Assurance" class="headerlink" title="Testing and Quality Assurance"></a>Testing and Quality Assurance</h3><p>Never underestimate just how useful quality assurance is. If you’re<br>looking to get involved with the code base and don’t know where to<br>start, checking out and testing a pull request is one of the most<br>useful things you could do.</p>
+<p>If you want to get involved with testing MathJax, there is a set of QA<br>Documentation <a href="https://github.com/MathJax/MathJax-testing">in our testing<br>framework</a>.</p>
+<p>Essentially though, <a href="#working-on-mathJax-core">check out the latest develop<br>branch</a>, take it for a spin, and if you find<br>anything odd, please follow the <a href="#bug-reports">bug report guidelines</a><br>and let us know!</p>
+<h4 id="Checking-out-a-Pull-Request"><a href="#Checking-out-a-Pull-Request" class="headerlink" title="Checking out a Pull Request"></a>Checking out a Pull Request</h4><p>These are some <a href="https://gist.github.com/piscisaureus/3342247">excellent<br>instructions</a> on<br>configuring your GitHub repository to allow you to checkout pull<br>requests in the same way as branches:<br><a href="https://gist.github.com/piscisaureus/3342247">https://gist.github.com/piscisaureus/3342247</a>.</p>
+<h3 id="Writing-documentation"><a href="#Writing-documentation" class="headerlink" title="Writing documentation"></a>Writing documentation</h3><p>MathJax’s main documentation can be found at <a href="http://docs.mathjax.org">docs.mathjax.org</a>.<br>The source of the docs is hosted in the<br><a href="http://github.com/mathjax/mathjax-docs">mathjax/mathjax-docs</a> repo here on GitHub.</p>
+<p>The documentation is generated using <a href="http://sphinx-doc.org/">Sphinx-doc</a> and hosted on<br><a href="http://readthedocs.org">Read the docs</a>.<br>You can clone the repo and submit pull requests following the<br><a href="#submitting-pull-requests">pull-request</a> guidelines.</p>
+<h3 id="Translation"><a href="#Translation" class="headerlink" title="Translation"></a>Translation</h3><p>If you wish to add or update translations of MathJax, please do it on<br><a href="https://translatewiki.net/w/i.php?title=Special:Translate&amp;group=out-mathjax-0-all">TranslateWiki.net</a><br>(and while you’re there you can help other open source projects,<br>too, because you’re awesome!).</p>
+<p>For bug reports and other questions that don’t fit on<br>TranslateWiki.net, head over to the<br><a href="https://github.com/mathjax/MathJax-i18n">mathjax/mathjax-i18n</a><br>repository.</p>
+<h2 id="Conduct"><a href="#Conduct" class="headerlink" title="Conduct"></a>Conduct</h2><p>We are committed to providing a friendly, safe and welcoming environment for<br>all, regardless of gender, sexual orientation, disability, ethnicity, religion,<br>or similar personal characteristic.</p>
+<p>Please be kind and courteous. There’s no need to be mean or rude.<br>Respect that people have differences of opinion and that every design or<br>implementation choice carries a trade-off and numerous costs. There is seldom<br>a right answer, merely an optimal answer given a set of values and<br>circumstances.</p>
+<p>Please keep unstructured critique to a minimum. If you have solid ideas you<br>want to experiment with, make a fork and see how it works.</p>
+<p>We will exclude you from interaction if you insult, demean or harass anyone.<br>That is not welcome behaviour. We interpret the term “harassment” as<br>including the definition in the<br><a href="http://citizencodeofconduct.org/">Citizen Code of Conduct</a>;<br>if you have any lack of clarity about what might be included in that concept,<br>please read their definition. In particular, we don’t tolerate behavior that<br>excludes people in socially marginalized groups.</p>
+<p>Private harassment is also unacceptable. No matter who you are, if you feel<br>you have been or are being harassed or made uncomfortable by a community<br>member, please contact one of the channel ops or any of the<br><a href="https://github.com/MathJax/MathJax">MathJax</a> core team<br>immediately. Whether you’re a regular contributor or a newcomer, we care about<br>making this community a safe place for you and we’ve got your back.</p>
+<p>Likewise any spamming, trolling, flaming, baiting or other attention-stealing<br>behaviour is not welcome.</p>
+<p>We also suggest to read <a href="http://blog.discourse.org/2013/03/the-universal-rules-of-civilized-discourse/">discourse’s<br>rules</a></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li>We heavily borrowed from Mozilla and Ghost – thank you!<ul>
+<li><a href="https://github.com/TryGhost/Ghost/blob/master/CONTRIBUTING.md">https://github.com/TryGhost/Ghost/blob/master/CONTRIBUTING.md</a></li>
+<li><a href="https://github.com/mozilla/rust/wiki/Note-development-policy">https://github.com/mozilla/rust/wiki/Note-development-policy</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/jden/CONTRIBUTING.md/blob/master/CONTRIBUTING.md">https://github.com/jden/CONTRIBUTING.md/blob/master/CONTRIBUTING.md</a></li>
+<li><a href="http://blog.discourse.org/2013/03/the-universal-rules-of-civilized-discourse/">http://blog.discourse.org/2013/03/the-universal-rules-of-civilized-discourse/</a></li>
+</ul>

@@ -1,0 +1,31 @@
+<h1 id="jQuery"><a href="#jQuery" class="headerlink" title="jQuery"></a>jQuery</h1><blockquote>
+<p>jQuery is a fast, small, and feature-rich JavaScript library.</p>
+</blockquote>
+<p>For information on how to get started and how to use jQuery, please see <a href="http://api.jquery.com/">jQuery’s documentation</a>.<br>For source files and issues, please visit the <a href="https://github.com/jquery/jquery">jQuery repo</a>.</p>
+<h2 id="Including-jQuery"><a href="#Including-jQuery" class="headerlink" title="Including jQuery"></a>Including jQuery</h2><p>Below are some of the most common ways to include jQuery.</p>
+<h3 id="Browser"><a href="#Browser" class="headerlink" title="Browser"></a>Browser</h3><h4 id="Script-tag"><a href="#Script-tag" class="headerlink" title="Script tag"></a>Script tag</h4><pre><code class="html"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-2.2.0.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+</code></pre>
+<h4 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h4><p><a href="http://babeljs.io/">Babel</a> is a next generation JavaScript compiler. One of the features is the ability to use ES6/ES2015 modules now, even though browsers do not yet support this feature natively.</p>
+<pre><code class="js"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">"jquery"</span>;
+</code></pre>
+<h4 id="Browserify-Webpack"><a href="#Browserify-Webpack" class="headerlink" title="Browserify/Webpack"></a>Browserify/Webpack</h4><p>There are several ways to use <a href="http://browserify.org/">Browserify</a> and <a href="https://webpack.github.io/">Webpack</a>. For more information on using these tools, please refer to the corresponding project’s documention. In the script, including jQuery will usually look like this…</p>
+<pre><code class="js"><span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">"jquery"</span>);
+</code></pre>
+<h4 id="AMD-Asynchronous-Module-Definition"><a href="#AMD-Asynchronous-Module-Definition" class="headerlink" title="AMD (Asynchronous Module Definition)"></a>AMD (Asynchronous Module Definition)</h4><p>AMD is a module format built for the browser. For more information, we recommend <a href="http://requirejs.org/docs/whyamd.html">require.js’ documentation</a>.</p>
+<pre><code class="js">define([<span class="string">"jquery"</span>], <span class="function"><span class="keyword">function</span>(<span class="params">$</span>) </span>{
+
+});
+</code></pre>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><p>To include jQuery in <a href="nodejs.org">Node</a>, first install with npm.</p>
+<pre><code class="sh">npm install jquery
+</code></pre>
+<p>For jQuery to work in Node, a window with a document is required. Since no such window exists natively in Node, one can be mocked by tools such as <a href="https://github.com/tmpvar/jsdom">jsdom</a>. This can be useful for testing purposes.</p>
+<pre><code class="js"><span class="built_in">require</span>(<span class="string">"jsdom"</span>).env(<span class="string">""</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, window</span>) </span>{
+    <span class="keyword">if</span> (err) {
+        <span class="built_in">console</span>.error(err);
+        <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">"jquery"</span>)(<span class="built_in">window</span>);
+});
+</code></pre>

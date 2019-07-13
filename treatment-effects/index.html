@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="A blog for machine learning experiments.">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Pranav Rajpurkar">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Treatment Effects with Decision Trees"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="A blog for machine learning experiments." />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="mlx"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="rajpurkar>" />
+    
+
+    
+        <link rel="icon" type="image/png" href="/mlx/img/favicon.png">
+    
+
+    <!-- Title -->
+    
+    <title>Treatment Effects with Decision Trees - mlx</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/mlx/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/mlx/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/mlx/bower_components/lato-font/css/lato-font.min.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-106613516-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mlx/">mlx</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/mlx/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/mlx/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rajpurkar/mlx">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/mlx/img/bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="post-heading">
+                    <h1>Treatment Effects with Decision Trees</h1>
+                    
+                    <h2 class="post-subheading">
+                        Learnings from a few papers
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            By Pranav Rajpurkar on
+                        
+                        September 6th 2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Gallery -->
+            
+            <!-- Post Main Content -->
+            <div class="col-md-9">
+                <p>Will a drug have a positive effect on a patient? For a patient $i$, the <strong>treatment effect</strong> (${τ_i}$) is the difference in potential outcomes if the patient receives a drug $(Y_i^{(1)})$ vs. if they don’t $(Y_i^{(0)})$.</p>
+<p>$$τ_i = Y_i^{(1)} - Y_i^{(0)}$$</p>
+<p>We look at work that deals with binary outcomes, where 0 corresponds to a good outcome, and 1 corresponds to a bad outcome (example: death by Cardiovascular Disease). One task is to estimate the population average treatment effect, given by:</p>
+<p>$$τ\,^p = \mathbb{E}[Y_i^{(1)} - Y_i^{(0)}]$$</p>
+<p>Sometimes the population average effect of the drug is not positive, but that the drug can be effective for particular categories of patients. We might be interested in understanding how effective the treatment would be for a particular individual or subpopulation $x$; this is referred to as heterogeneous treatment effect or Conditional Average Treatment Effect (CATE):</p>
+<p>$$τ\left(x\right) = \mathbb{E}[Y_i^{(1)} - Y_i^{(0)} | X_i = x]$$</p>
+<p>We seek to learn $τ$, but note the difficulty that we can only ever observe one of $(Y_i^{(0)})$ and $(Y_i^{(1)})$ in practice, because we can’t treat and not treat the same patient simultaneously: this is called the <em>fundamental problem of causal inference</em>. It is therefore challenging to directly train machine learning algorithms on differences of the form $Y_i^{(1)} - Y_i^{(0)}$.</p>
+<p>So how do we estimate such treatment effects? In this post, we look at a couple of papers to get some insights:</p>
+<p>The first paper we look at is <a href="http://www.tandfonline.com/doi/abs/10.1080/01621459.2017.1319839">Estimation and inference of heterogeneous treatment effects using random forests (2017)</a>.</p>
+<p>This paper extends the <a href="https://en.wikipedia.org/wiki/Random_forest#Algorithm">random forest algorithm</a> to a causal forest for estimating heterogeneous treatment effects:</p>
+<ul>
+<li>One assumption made is that of <em>unconfoundedness</em>: that the decision of whether or not a patient gets treated $W_i \in \lbrace  0, 1 \rbrace$ is independent of the potential outcomes $(Y_i^{(0)}, Y_i^{(1)})$ when conditioned on $X_i$. The implication of this assumption is that nearby observations in the x-space can be treated as “having come from a randomized experiment.”</li>
+<li>Trees can be thought of as nearest neighbor methods with an adaptive neighborhood metric, with the closest points to $x$ being in the same leaf that it is. Let’s assume that we can build a classification tree by some method by observing independent samples $(X_i, Y_i)$, then a new $x$ can be classified by:<ul>
+<li>Identify the leaf containing $x$</li>
+<li>In that leaf, take the mean of the $Y_i$s in that leaf.</li>
+</ul>
+</li>
+<li>In a causal tree, we make use of the assignment labels $W_i$ in the examples. To make the prediction $τ\left(x\right)$:<ul>
+<li>Identify the leaf containing $x$</li>
+<li>In that leaf, compute the mean of the $Y_i$s where $W_i = 0$, and subtract that from the mean of the $Y_i$s where $W_i = 1$.</li>
+</ul>
+</li>
+<li>Given a procedure for generating one tree, a causal forest can generate an ensemble of such trees, and then take the mean of the resulting $τ\left(x\right)$s.</li>
+<li>The causal forest is compared to non-adaptive nearest neighbors method (k-NN matching baseline) which estimates treatment effect for any $x$:<ul>
+<li>Compute the mean of the $Y_i$s of the $k$ closest examples (L2 distance to $X_i$s) where $W_i = 0$, and subtract that from the mean of $Y_i$s of the $k$ closest examples where $W_i = 1$.</li>
+</ul>
+</li>
+<li>Causal forests outperform the k-NN matching baseline, performing an order of magnitude better in mean-squared-error.</li>
+</ul>
+<p>The next paper we’ll look at is <a href="https://pdfs.semanticscholar.org/86ce/004214845a1683d59b64c4363a067d342cac.pdf">Machine Learning Methods for Estimating Heterogeneous Causal Effects (2015)</a>; this work inspires the causal tree approach we saw in the first paper. </p>
+<ul>
+<li>The paper discusses methods for estimating heterogeneous treatment effects, starting with two conventional baseline algorithms. In addition, two novel algorithms are developed.</li>
+<li>The first algorithm, called the Single Tree (ST) algorithm estimates the expectation of the outcome conditioned on both the treatment and $X_i$ as features:<br>$$ µ(w, x) = \mathbb{E}[Y_i^{obs} | W_i = w, X_i = x]$$</li>
+<li>The Conditional Average Treatment Effect can then be estimated as:<br>$$ \hat{τ}\left(x\right)  = µ(w, 1)  - µ(w, 0)$$</li>
+<li>The second algorithm, called the Two Tree (TT) algorithm, modifies the first algorithm to split the problem of estimating $ \hat{τ}\left(x\right)$ into two separate problems, so that one model is responsible for the conditional expectation $ µ_1(x) $ with samples where $ W_i = 1 $, and another $ µ_0(x) $ with samples where $ W_i = 0 $.</li>
+<li>The Conditional Average Treatment Effect can then be estimated as:<br>$$ \hat{τ}\left(x\right)  = µ_1(w)  - µ_0(w)$$</li>
+<li>The third algorithm is called the Transformed Outcome Tree (TOT) method. The paper looks at a more general version of the transformation, but we’ll focus on the case of complete randomization, with equal probability of whether or not a patient is given treatment. The idea of this method is to transform the output variable $ Y_i^{obs} $ to $ Y_i^{\star} $, where $ Y_i^{\star} = 2 \cdot Y_i^{obs} $ when $ W_i = 1 $, and $ Y_i^{\star} = -2 \cdot Y_i^{obs} $ when $ W_i = 0 $.</li>
+<li>With the above method, we now directly estimate the effect, without estimating the $µ$s for both the treatment and control. We can do so because it is proved that $\mathbb{E}[Y_i^{\star} | X_i = x] = τ\left(x\right)$. All that’s important to understand here is that we can transform the observed $Y_i$s to $Y_i^{\star}$, and train a model to directly predict $Y_i^{\star}$.</li>
+<li>We estimate the treatment effect on a new $x$ by:<ul>
+<li>Identify the leaf containing $x$</li>
+<li>In that leaf, take the mean of the $Y_i^{\star}$s in that leaf.</li>
+</ul>
+</li>
+<li>The authors show that the above method is however, biased: if the proportion of patients assigned treatment within a leaf is different from the proportion of patients assigned treatment in the entire population, then naively taking the mean will bias the prediction.</li>
+<li>The fourth algorithm, called the Causal Tree (CT) method, improves upon the TOT approach, “unbiased within each candidate leaf upon which it is calculated.” The algorithm is identical to the causal tree algorithm we saw in Paper 1 in the case of randomized assignments.</li>
+<li>Note the challenge of evaluating these algorithms on a test set:  the “ground truth” for a causal effect is not observed for any individual unit. On a simulation study, the authors compare their algorithms by simulating both potential outcomes in evaluating the performance of the algorithms.</li>
+</ul>
+<p><em>To learn more about causal inference, check out these <a href="https://mlhc17mit.github.io/slides/lecture3.pdf">notes</a> from MIT’s course on ML for healthcare (2017) taught by David Sontag, or these <a href="http://www.nasonline.org/programs/sackler-colloquia/documents/athey.pdf">slides</a> by Susan Athey, and Guido Imbens.</em></p>
+
+                
+                    
+    <hr />
+    <h3>Comments:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+                
+            </div>
+            <div class="col-md-3">
+                <h2> Also Read </h2>
+                <hr>
+                
+                    <div class="post-preview">
+    <a href="/mlx/risk-stratification/">
+        <h1 class="post-title archive">
+            Risk Stratification For Patient Care
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 2nd 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/survival-analysis/">
+        <h1 class="post-title archive">
+            Survival Analysis
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 3rd 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/arrhythmia-detection/">
+        <h1 class="post-title archive">
+            Arrhythmia Detection
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 13th 2017
+    </p>
+</div>
+                
+                <hr>
+                
+                    
+
+
+<a href="/mlx/tags/healthcare/">#healthcare</a>
+
+
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                        <li>
+                            <a href="https://twitter.com/pranavrajpurkar" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/rajpurkar/mlx" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="mailto:pranavsr@cs.stanford.edu" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/mlx/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="/mlx/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'mlx-2';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script src="/mlx/bower_components/MathJax/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+
+</body>
+
+</html>

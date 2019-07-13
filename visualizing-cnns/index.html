@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="A blog for machine learning experiments.">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Pranav Rajpurkar">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Visualizing A Convolutional Neural Network&#39;s Predictions"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="A blog for machine learning experiments." />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="mlx"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="rajpurkar>" />
+    
+
+    
+        <link rel="icon" type="image/png" href="/mlx/img/favicon.png">
+    
+
+    <!-- Title -->
+    
+    <title>Visualizing A Convolutional Neural Network&#39;s Predictions - mlx</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/mlx/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/mlx/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/mlx/bower_components/lato-font/css/lato-font.min.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-106613516-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mlx/">mlx</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/mlx/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/mlx/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rajpurkar/mlx">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/mlx/img/bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="post-heading">
+                    <h1>Visualizing A Convolutional Neural Network's Predictions</h1>
+                    
+                    <h2 class="post-subheading">
+                        Learnings from a few papers
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            By Pranav Rajpurkar on
+                        
+                        September 18th 2017
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Gallery -->
+            
+            <!-- Post Main Content -->
+            <div class="col-md-9">
+                <p>Visualizations can confer useful information about what a network is learning. When building a Convolutional Neural Network to identify objects in images, we might want to be able to interpret the model’s predictions. For example, we might want to explain why the network classifies a particular image as a spaceship. In this post, we look at papers that introduce visualization techniques for CNN-based image classification models. </p>
+<p>We first look at <a href="https://arxiv.org/pdf/1312.6034.pdf">Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps</a></p>
+<p>This paper introduces two ideas for visualizing the workings of the neural network. Both of them require computing of the gradient of the output with respect to the input image.</p>
+<p><strong>Class Model Visualization</strong>: The task here is to generate an image which will best represent a category. <em>Think: what’s the image that looks most like a spaceship to the neural network?</em>. We’re going to find the image $I$ which maximizes the score $S_c(I)$ the network assigns to category $c$; mathematically: $\mathtt{argmax}_I \space S_c(I)$.</p>
+<p><em>Note:</em> the score $S_c(I)$ is the score that the neural network assigns to a class <em>before</em> the softmax, not the probability $P_c = \frac{e^{S_c}}{\sum_c e^{S_c}}$</p>
+<p>We can start off with some image $I$, compute the gradient with respect to $I$ using back-propagation, and then use gradient ascent to find a better $I$, repeating the process until we find a locally optimal $I$. This is very similar to the optimization process for training a neural network, but instead of optimizing the weights, we’re optimizing the image, keeping the weights fixed.</p>
+<img src="/mlx/visualizing-cnns/class_model_vis.png" alt="Class model visualizations for 3 different classes. Source: https://arxiv.org/pdf/1312.6034.pdf." title="Class model visualizations for 3 different classes. Source: https://arxiv.org/pdf/1312.6034.pdf."><span class="image-caption">Class model visualizations for 3 different classes. Source: https://arxiv.org/pdf/1312.6034.pdf.</span>
+<p><strong>Class Saliency in an Image</strong>: The goal here is to find the pixels of an image which contribute most towards a particular classification. <em>Think: what pixels in this image are most important for the neural network to classify it as an image of a spaceship.</em> We’re going to take the derivative of the class score $S_c$ with respect to the input image space $I$, and evaluate at our image $I_0$; mathematically: $\frac{\partial S_c}{\partial I}\bigr\rvert_{I_0}$.</p>
+<p>The above derivative gives us a scalar quantity for each of the pixels in the image. Let $w^c_{ij}$ be this quantity at location $(i, j)$ when we’ve used the score for class $c$. We can take the magnitude of these values and then normalize them to get a class saliency map $M_c$ over the image.</p>
+<p>$$ M_c(i,j) = \frac{w_{ij}}{\sum_{ij} w_{ij}} $$</p>
+<img src="/mlx/visualizing-cnns/image_specific_saliency_map.png" alt="Image-specific Saliency Map shows pixels that are most important for the image being classified as a dog. Source: https://arxiv.org/pdf/1312.6034.pdf." title="Image-specific Saliency Map shows pixels that are most important for the image being classified as a dog. Source: https://arxiv.org/pdf/1312.6034.pdf."><span class="image-caption">Image-specific Saliency Map shows pixels that are most important for the image being classified as a dog. Source: https://arxiv.org/pdf/1312.6034.pdf.</span>
+<p><em>What’s cool about this?</em> The image specific saliency map can be used for localizing an object of interest (<em>in the above example, we can see where the dog in the image is</em>), and segment it out with the help of a segmentation algorithm. Note that the classification model isn’t trained with object locations; it’s only given <em>(image, category)</em> pairs, but learns to localize: this is called <em>weakly-supervised object localization</em>.</p>
+<p>The next paper we’ll look at is <a href="https://arxiv.org/pdf/1512.04150.pdf">Learning Deep Features for Discriminative Localization</a>.</p>
+<p>This paper proposes another way to visualize class saliency in images. While the previous paper looks at using back-propagation of the output class score with respect to the input, this paper modifies the network architecture so that the forward propagation can perform both the classification and localization. </p>
+<p>The network architecture starts with a sequence of convolutional layers. Passing an image through convolutional layers gives us $k$ feature maps of the image, which are the result of applying learned filters to the image. Each feature map consists of $ i \times j $ activations. Let $f_k(i, j)$ represent the activation at the $(i, j)$th location in feature map $k$.</p>
+<p>The score for each class, $S_c$, can then be obtained by summing up the activations within each feature map $\sum_{i,j} f_k(i, j)$, and then taking a weighted average across the feature maps (where the weights $w_k^c$ are learned):</p>
+<p>$$ S_c = \sum_k w_k^c \sum_{i, j} f_k(i, j)$$</p>
+<p><em>Aside: Ordinarily, to classify an image, the output of final convolutional layer would be flattened, and then followed by one or more fully connected layers with a softmax activation for categorization. The input size of the fully connected layer would be determined by the size of the input image, making the trained network hard to apply to an image of a different size. The approach taken in this paper avoids that problem, because rather than flattening the feature map, it’s simply summed over, making the approach work with variable-sized feature maps, and therefore with different image sizes. Learn more about this idea, called Global Average Pooling, <a href="https://arxiv.org/pdf/1312.4400.pdf">here</a>.</em></p>
+<p>In addition to using this architecture for classification, we can also get a class saliency map, here called <em>class activation map</em>. The idea is to use the learned weight vectors $(w_k^c)$ to take a weighted average of each of the feature maps. Formally:</p>
+<p>$$ M_c(i,j) = \sum_k w_k^c f_k(i, j)$$</p>
+<img src="/mlx/visualizing-cnns/class_activation_maps.png" alt="Class-activation maps generated for the top-5 predicted classes with their associated class probabilities. Source: https://arxiv.org/pdf/1512.04150.pdf" title="Class-activation maps generated for the top-5 predicted classes with their associated class probabilities. Source: https://arxiv.org/pdf/1512.04150.pdf"><span class="image-caption">Class-activation maps generated for the top-5 predicted classes with their associated class probabilities. Source: https://arxiv.org/pdf/1512.04150.pdf</span>
+<p><em>What’s cool about this?</em> One forward pass can compute both the saliency map and the classification of the image. In fact, we can arrive at the class score from the class activation map $S_c = \sum_{i, j} M_c(i,j)$. Additionally, this method produces visually better maps than those produced by the back-propagation method of the previous paper.</p>
+
+                
+                    
+    <hr />
+    <h3>Comments:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+                
+            </div>
+            <div class="col-md-3">
+                <h2> Also Read </h2>
+                <hr>
+                
+                    <div class="post-preview">
+    <a href="/mlx/treatment-effects/">
+        <h1 class="post-title archive">
+            Treatment Effects with Decision Trees
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 6th 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/risk-stratification/">
+        <h1 class="post-title archive">
+            Risk Stratification For Patient Care
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 2nd 2017
+    </p>
+</div>
+                
+                    <div class="post-preview">
+    <a href="/mlx/survival-analysis/">
+        <h1 class="post-title archive">
+            Survival Analysis
+        </h1>
+    </a>
+    <p class="post-meta archive">
+        <!-- Date and Author -->
+        
+            By Pranav Rajpurkar on
+        
+        September 3rd 2017
+    </p>
+</div>
+                
+                <hr>
+                
+                    
+
+
+<a href="/mlx/tags/visualization/">#visualization</a>
+
+
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                        <li>
+                            <a href="https://twitter.com/pranavrajpurkar" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/rajpurkar/mlx" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="mailto:pranavsr@cs.stanford.edu" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/mlx/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="/mlx/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'mlx-2';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script src="/mlx/bower_components/MathJax/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+
+</body>
+
+</html>
