@@ -1,13 +1,14 @@
 ---
 title: Validating the CheXpert model on your own data in an hour
-subtitle: A Walkthrough For External Validation of Chest X-Ray Interpretation
-date: 2019-07-13 22:52:44
-author: 'Pranav Rajpurkar, Jeremy Irvin, Matt Lungren'
 tags:
-    - AI
-    - medicine
-    - external validation
+  - AI
+  - medicine
+  - external validation
+subtitle: A Walkthrough For External Validation of Chest X-Ray Interpretation
+author: 'Pranav Rajpurkar, Jeremy Irvin, Matt Lungren'
+date: 2019-07-13 22:52:44
 ---
+
 
 In this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just an hour!
 
