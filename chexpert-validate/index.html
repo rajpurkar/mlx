@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Validating the CheXpert model on your own data in 30 minutes without any coding"/>
+        <meta property="og:title" content="Validating the CheXpert model on your own data in 30 minutes"/>
     
 
     <!--Open Graph Description-->
@@ -50,7 +50,7 @@
 
     <!-- Title -->
     
-    <title>Validating the CheXpert model on your own data in 30 minutes without any coding - mlx</title>
+    <title>Validating the CheXpert model on your own data in 30 minutes - mlx</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -141,7 +141,7 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="post-heading">
-                    <h1>Validating the CheXpert model on your own data in 30 minutes without any coding</h1>
+                    <h1>Validating the CheXpert model on your own data in 30 minutes</h1>
                     
                     <h2 class="post-subheading">
                         A Walkthrough For External Validation of Chest X-Ray Interpretation
@@ -174,7 +174,7 @@
 <p>Since we published our findings, there have been several groups attempting to reproduce our algorithms (<a href="https://github.com/zoogzog/chexnet">1</a>, <a href="https://github.com/brucechou1983/CheXNet-Keras">2</a>, <a href="https://github.com/arnoweng/CheXNet">3</a>, <a href="https://medium.com/@jrzech/reproducing-chexnet-with-pytorch-695ff9c3bf66">4</a>), and validate them on their own datasets. This is an encouraging signal – before chest x-ray interpretation algorithms can impact clinical care it is important that they be validated on data from other institutions, countries, and patient populations. Validation provides valuable information about the generalizability of the model to different settings, and informs settings in which further development is required for safe and effective use of algorithms.</p>
 <h3 id="Making-it-Easy-for-Everyone-to-Validate-Our-Models"><a href="#Making-it-Easy-for-Everyone-to-Validate-Our-Models" class="headerlink" title="Making it Easy for Everyone to Validate Our Models"></a>Making it Easy for Everyone to Validate Our Models</h3><p>We set ourselves the <strong>challenge of making it as easy as possible for everyone to use our chest x-ray algorithm for validation</strong> on external data. Running an algorithm on a new dataset is traditionally a challenging and tedious task, usually requiring computer science expertise, and patience to work through a lot of installation setup. Computer science practitioners are well aware that even when the code is open-sourced, it takes a lot of trial and error to work through installation if the dependencies are not cross-platform, or worse, if they haven’t been specified. Deep learning practice can be even more challenging: local installation is hard because the models may not even fit in local memory. In the remainder of this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just 30 minutes!</p>
 <h2 id="Walkthrough-of-Validating-CheXpert-model-on-your-own-data"><a href="#Walkthrough-of-Validating-CheXpert-model-on-your-own-data" class="headerlink" title="Walkthrough of Validating CheXpert model on your own data"></a>Walkthrough of Validating CheXpert model on your own data</h2><p>*For this walkthrough, you don’t need any coding experience. You also don’t need any data: we’ll provide you data example we use for this walkthrough.</p>
-<p><strong>We had three of our colleagues go through this walkthrough, including two radiologists, and it took them 21.5 minutes on average.</strong></p>
+<p><strong>We had three of our colleagues go through this walkthrough, including two radiologists, and it took them 21.5 minutes on average using the example dataset.</strong></p>
 <p><strong>If you don’t have a dataset right now, <a href="https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing", target="_blank">download the data we’ve generated</a>, and skip to the <a href="#Running-the-CheXpert-model-on-your-data">next section</a>.</strong></p>
 <h3 id="How-to-Set-Up-Your-Data-Formatting-and-Organization"><a href="#How-to-Set-Up-Your-Data-Formatting-and-Organization" class="headerlink" title="How to Set Up Your Data: Formatting and Organization"></a>How to Set Up Your Data: Formatting and Organization</h3><p><em>If you’re coming in with your own data, this section will help you transform it to the right format.</em></p>
 <p>In this section, we’re going to get your data into a format that the algorithm expects. There will be three things we’ll need: a folder containing x-ray images, a file containing a list of images to be passed into the algorithm, and a file containing information about the ground truth for each of the studies.</p>
