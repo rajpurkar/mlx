@@ -125,7 +125,9 @@ Click on the 'Upload' button in the sidebar:
 {% asset_img upload.png Upload %}
 <br>
 
-Upload dataset.zip first. In a few seconds, you should see a table with a row added on the left side of the page (refresh the page if you don't). Then upload image_paths.csv, and then ground_truths.csv, one by one.
+Upload dataset.zip first (dataset.zip a the zip file within the folder you downloaded). In a few seconds, you should see a table with a row added on the left side of the page (refresh the page if you don't). Then upload image_paths.csv, and then ground_truths.csv, one by one.
+
+*If you uploaded the **wrong** file, you can simply right click on the new row that has been added to the left of the page, and select 'Remove Bundle Permanently'.*
 <br>
 {% asset_img upload2.png All Files Are Uploaded %}
 <br>
@@ -158,13 +160,15 @@ Congratulations, you've already kicked off the run of the model on the data in j
 {% asset_img command2.png See the outputs and click outside %}
 <br>
 
-You should be able to see a few rows added to the table on the left of the page. 
+You should be able to see that *Dataset Evaluation* and a few rows have been added to the table on the left of the page.
 
 <br>
 {% asset_img check1.png Verify that a few files are appended to your worksheet%}
 <br>
 
-Click on the 'new-run' row of the table. The sidebar should change, and now display information about the status of the model's run on the data. We're going to give special attention to the 'state' of the run, which will start off with 'preparing' then move to 'running' and then 'ready'. The 'preparing' state can take a few minutes, as the remote machine downloads the CheXpert models.
+Click on the 'new-run' row of the table on the left side of the page (see selection in figure below). The sidebar should change, and now display information about the status of the model's run on the data.
+
+We're going to give special attention to the 'state' of the run. This will start with 'preparing', and can take a few minutes as the remote machine downloads the CheXpert models.
 
 <br>
 {% asset_img check2.png Check the status %}
