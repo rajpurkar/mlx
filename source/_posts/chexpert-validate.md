@@ -206,4 +206,4 @@ pranavsr@stanford.edu, jirvin16@stanford.edu, mlungren@stanford.edu
 
 <br>
 #### Acknowledgements
-Thanks to our colleagues Nguyet Minh Phu and Mark Sabini for collecting and labeling the google images dataset we use in our example. Thank you to Amit Schecter, Anuj Pareek MD, and Evan Zucker MD for testing and timing the walkthrough.
+Thanks to our colleagues Nguyet Minh Phu and Mark Sabini for collecting and labeling the google images dataset we use in our example. Thank you to Amit Schechter, Anuj Pareek MD, and Evan Zucker MD for testing and timing the walkthrough.
