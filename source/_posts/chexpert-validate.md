@@ -1,5 +1,5 @@
 ---
-title: Validating the CheXpert model on your own data in 30 minutes without any coding
+title: Validating the CheXpert model on your own data in 30 minutes
 tags:
   - AI
   - medicine
@@ -27,7 +27,7 @@ We set ourselves the **challenge of making it as easy as possible for everyone t
 ## Walkthrough of Validating CheXpert model on your own data
 *For this walkthrough, you don't need any coding experience. You also don't need any data: we'll provide you data example we use for this walkthrough.
 
-**We had three of our colleagues go through this walkthrough, including two radiologists, and it took them 21.5 minutes on average.**
+**We had three of our colleagues go through this walkthrough, including two radiologists, and it took them 21.5 minutes on average using the example dataset.**
 
 **If you don’t have a dataset right now, <a href="https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing", target="_blank">download the data we've generated</a>, and skip to the [next section](#Running-the-CheXpert-model-on-your-data).**
 
