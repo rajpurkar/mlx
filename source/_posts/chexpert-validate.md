@@ -1,16 +1,18 @@
 ---
-title: Validating the CheXpert model on your own data in an hour
+title: Validating the CheXpert model on your own data in 30 minutes without any coding
 tags:
   - AI
   - medicine
+  - imaging
+  - x-ray
   - external validation
 subtitle: A Walkthrough For External Validation of Chest X-Ray Interpretation
-author: 'Pranav Rajpurkar, Jeremy Irvin, Matt Lungren'
-date: 2019-07-13 22:52:44
+author: 'Pranav Rajpurkar, Jeremy Irvin, Matt Lungren, Curt Langlotz'
+date: 2019-07-15 22:52:44
 ---
 
 
-In this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just an hour!
+In this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just 30 minutes!
 
 ### CXR Interpretation: Our Journey and Next Frontier
 In the [Stanford Machine Learning Group](https://stanfordmlgroup.github.io) and the [AIMI center](http://aimi.stanford.edu), chest x-ray interpretation, a *bread and butter* problem for radiologists with vital public health implications, has been one of our primary focus areas.
@@ -20,12 +22,14 @@ In late 2017, using the [NIH’s Chest X-ray14 dataset](https://arxiv.org/abs/17
 Since we published our findings, there have been several groups attempting to reproduce our algorithms ([1](https://github.com/zoogzog/chexnet), [2](https://github.com/brucechou1983/CheXNet-Keras), [3](https://github.com/arnoweng/CheXNet), [4](https://medium.com/@jrzech/reproducing-chexnet-with-pytorch-695ff9c3bf66)), and validate them on their own datasets. This is an encouraging signal -- before chest x-ray interpretation algorithms can impact clinical care it is important that they be validated on data from other institutions, countries, and patient populations. Validation provides valuable information about the generalizability of the model to different settings, and informs settings in which further development is required for safe and effective use of algorithms.
 
 ### Making it Easy for Everyone to Validate Our Models
-We set ourselves the **challenge of making it as easy as possible for everyone to use our chest x-ray algorithm for validation** on external data. Running an algorithm on a new dataset is traditionally a challenging and tedious task, usually requiring computer science expertise, and patience to work through a lot of installation setup. Computer science practitioners are well aware that even when the code is open-sourced, it takes a lot of trial and error to work through installation if the dependencies are not cross-platform, or worse, if they haven’t been specified. Deep learning practice can be even more challenging: local installation is hard because the models may not even fit in local memory. In the remainder of this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just an hour!
+We set ourselves the **challenge of making it as easy as possible for everyone to use our chest x-ray algorithm for validation** on external data. Running an algorithm on a new dataset is traditionally a challenging and tedious task, usually requiring computer science expertise, and patience to work through a lot of installation setup. Computer science practitioners are well aware that even when the code is open-sourced, it takes a lot of trial and error to work through installation if the dependencies are not cross-platform, or worse, if they haven’t been specified. Deep learning practice can be even more challenging: local installation is hard because the models may not even fit in local memory. In the remainder of this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just 30 minutes!
 
 ## Walkthrough of Validating CheXpert model on your own data
-*For this walkthrough, you don't need any coding experience. You also don't need any data: we'll provide you data example we use for this walkthrough. We had three friends go through this walkthrough; it took them 1.5 hours on average.*
+*For this walkthrough, you don't need any coding experience. You also don't need any data: we'll provide you data example we use for this walkthrough.
 
-**If you don’t have a dataset right now, [download the data we've generated](https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing), and skip to the [next section](#Running-the-CheXpert-model-on-your-data).**
+**We had three of our colleagues go through this walkthrough, including two radiologists, and it took them 21.5 minutes on average.**
+
+**If you don’t have a dataset right now, <a href="https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing", target="_blank">download the data we've generated</a>, and skip to the [next section](#Running-the-CheXpert-model-on-your-data).**
 
 ### How to Set Up Your Data: Formatting and Organization
 *If you're coming in with your own data, this section will help you transform it to the right format.*
@@ -88,7 +92,7 @@ This CSV file should be saved with the name 'ground_truths.csv'.
 <br>
 
 ### Running the CheXpert model on your data
-We will now run through how you can run the CheXpert model we've pre-trained on Stanford data on the dataset you've prepared. *If you're using our example data, now's a good time to [download it if you haven't already](https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing).* At the end of this section, you'll be able to see the Area Under the Curve (AUC) metric of the model for the 5 tasks on your data (or the example data).
+We will now run through how you can run the CheXpert model we've pre-trained on Stanford data on the dataset you've prepared. *If you're using our example data, now's a good time to <a href="https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing" target="_blank">download it if you haven't already</a>* At the end of this section, you'll be able to see the Area Under the Curve (AUC) metric of the model for the 5 tasks on your data (or the example data).
 
 <br>
 {% asset_img final.png The final output we'll work towards %}
@@ -98,7 +102,7 @@ We will now run through how you can run the CheXpert model we've pre-trained on 
 We'll be using the Codalab platform for running the model on your data. CodaLab is an online platform for collaborative and reproducible computational research, developed by Percy Liang at Stanford. The platform has an interface for running commands, using which you will upload your data and run the Chexpert model.
 
 First, we'll create an account on Codalab:
-1. Go to http://worksheets.codalab.org and click "Sign Up" in the top-right corner.
+1. Go to <a href="http://worksheets.codalab.org/", target="_blank">Codalab Worksheets</a> and click "Sign Up" in the top-right corner.
 2. Fill out the subsequent form.
 3. A verification email will be sent to the email address you used to sign up. When you open it, there will be a link to follow in order to verify your account.
 4. After verifying your account, sign in again.
@@ -190,7 +194,7 @@ Once the model has finished running, the status of the run will update to 'ready
 {% asset_img ready.png Running is completed %}
 <br>
 
-And that’s it! In just over an hour, we’ve been able to run the CheXpert model on your own data (or the example data)!
+And that’s it! You’ve just validated the CheXpert model on your own data (or the example data)!
 
 <br>
 
@@ -202,4 +206,4 @@ pranavsr@stanford.edu, jirvin16@stanford.edu, mlungren@stanford.edu
 
 <br>
 #### Acknowledgements
-Thanks to our colleagues Nguyet Minh Phu and Mark Sabini for collecting and labeling the google images dataset we use in our example.
+Thanks to our colleagues Nguyet Minh Phu and Mark Sabini for collecting and labeling the google images dataset we use in our example. Thank you to Amit Schecter, Anuj Pareek MD, and Evan Zucker MD for testing and timing the walkthrough.
