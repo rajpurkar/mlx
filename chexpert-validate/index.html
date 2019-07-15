@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Validating the CheXpert model on your own data in an hour"/>
+        <meta property="og:title" content="Validating the CheXpert model on your own data in 30 minutes without any coding"/>
     
 
     <!--Open Graph Description-->
@@ -50,7 +50,7 @@
 
     <!-- Title -->
     
-    <title>Validating the CheXpert model on your own data in an hour - mlx</title>
+    <title>Validating the CheXpert model on your own data in 30 minutes without any coding - mlx</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/mlx/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -141,7 +141,7 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="post-heading">
-                    <h1>Validating the CheXpert model on your own data in an hour</h1>
+                    <h1>Validating the CheXpert model on your own data in 30 minutes without any coding</h1>
                     
                     <h2 class="post-subheading">
                         A Walkthrough For External Validation of Chest X-Ray Interpretation
@@ -150,9 +150,9 @@
                     <span class="meta">
                         <!-- Date and Author -->
                         
-                            By Pranav Rajpurkar, Jeremy Irvin, Matt Lungren on
+                            By Pranav Rajpurkar, Jeremy Irvin, Matt Lungren, Curt Langlotz on
                         
-                        July 13th 2019
+                        July 15th 2019
                     </span>
                 </div>
             </div>
@@ -168,13 +168,14 @@
             
             <!-- Post Main Content -->
             <div class="col-md-9">
-                <p>In this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just an hour!</p>
+                <p>In this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just 30 minutes!</p>
 <h3 id="CXR-Interpretation-Our-Journey-and-Next-Frontier"><a href="#CXR-Interpretation-Our-Journey-and-Next-Frontier" class="headerlink" title="CXR Interpretation: Our Journey and Next Frontier"></a>CXR Interpretation: Our Journey and Next Frontier</h3><p>In the <a href="https://stanfordmlgroup.github.io">Stanford Machine Learning Group</a> and the <a href="http://aimi.stanford.edu">AIMI center</a>, chest x-ray interpretation, a <em>bread and butter</em> problem for radiologists with vital public health implications, has been one of our primary focus areas.</p>
 <p>In late 2017, using the <a href="https://arxiv.org/abs/1705.02315">NIH’s Chest X-ray14 dataset</a> released by Xiaosong Wang et al., we built an algorithm (<a href="https://arxiv.org/abs/1711.05225">CheXNet</a>) to detect pneumonia and showed that its performance was comparable to radiologists; <a href="https://lukeoakdenrayner.wordpress.com/2018/01/24/chexnet-an-in-depth-review/">Luke Oakden-Rayner</a>, <a href="https://n2value.com/blog/chexnet-a-brief-evaluation/">Stephen Borstelmann</a> and others reviewed some of the strengths and weaknesses of our setup. In late 2018, we <a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1002686">published work</a> showing that an extension of CheXNet (<a href="https://stanfordmlgroup.github.io/projects/chexnext/">CheXNeXt</a>) could detect upto 10 pathologies at the level of 9 radiologists; at the same time, work by <a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1002683">John Zech at al.</a> showed that a reimplementation of CheXNet did generalize well to another institution’s data. In early 2019, we built and released <a href="https://arxiv.org/abs/1901.07031">CheXpert</a>, a large dataset of chest x-rays and competition for chest x-ray interpretation (co-released with MIT’s release of <a href="https://arxiv.org/abs/1901.07042">MIMIC-CXR</a> by Alistair Johnson et al.), and reported a similar finding of performing comparably to radiologists on some pathologies. Over the past few months, development of chest x-ray interpretation algorithms have been accelerating, with now over 32 models submitted to the <a href="https://stanfordmlgroup.github.io/competitions/chexpert/">CheXpert competition</a>.</p>
 <p>Since we published our findings, there have been several groups attempting to reproduce our algorithms (<a href="https://github.com/zoogzog/chexnet">1</a>, <a href="https://github.com/brucechou1983/CheXNet-Keras">2</a>, <a href="https://github.com/arnoweng/CheXNet">3</a>, <a href="https://medium.com/@jrzech/reproducing-chexnet-with-pytorch-695ff9c3bf66">4</a>), and validate them on their own datasets. This is an encouraging signal – before chest x-ray interpretation algorithms can impact clinical care it is important that they be validated on data from other institutions, countries, and patient populations. Validation provides valuable information about the generalizability of the model to different settings, and informs settings in which further development is required for safe and effective use of algorithms.</p>
-<h3 id="Making-it-Easy-for-Everyone-to-Validate-Our-Models"><a href="#Making-it-Easy-for-Everyone-to-Validate-Our-Models" class="headerlink" title="Making it Easy for Everyone to Validate Our Models"></a>Making it Easy for Everyone to Validate Our Models</h3><p>We set ourselves the <strong>challenge of making it as easy as possible for everyone to use our chest x-ray algorithm for validation</strong> on external data. Running an algorithm on a new dataset is traditionally a challenging and tedious task, usually requiring computer science expertise, and patience to work through a lot of installation setup. Computer science practitioners are well aware that even when the code is open-sourced, it takes a lot of trial and error to work through installation if the dependencies are not cross-platform, or worse, if they haven’t been specified. Deep learning practice can be even more challenging: local installation is hard because the models may not even fit in local memory. In the remainder of this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just an hour!</p>
-<h2 id="Walkthrough-of-Validating-CheXpert-model-on-your-own-data"><a href="#Walkthrough-of-Validating-CheXpert-model-on-your-own-data" class="headerlink" title="Walkthrough of Validating CheXpert model on your own data"></a>Walkthrough of Validating CheXpert model on your own data</h2><p><em>For this walkthrough, you don’t need any coding experience. You also don’t need any data: we’ll provide you data example we use for this walkthrough. We had three friends go through this walkthrough; it took them 1.5 hours on average.</em></p>
-<p><strong>If you don’t have a dataset right now, <a href="https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing">download the data we’ve generated</a>, and skip to the <a href="#Running-the-CheXpert-model-on-your-data">next section</a>.</strong></p>
+<h3 id="Making-it-Easy-for-Everyone-to-Validate-Our-Models"><a href="#Making-it-Easy-for-Everyone-to-Validate-Our-Models" class="headerlink" title="Making it Easy for Everyone to Validate Our Models"></a>Making it Easy for Everyone to Validate Our Models</h3><p>We set ourselves the <strong>challenge of making it as easy as possible for everyone to use our chest x-ray algorithm for validation</strong> on external data. Running an algorithm on a new dataset is traditionally a challenging and tedious task, usually requiring computer science expertise, and patience to work through a lot of installation setup. Computer science practitioners are well aware that even when the code is open-sourced, it takes a lot of trial and error to work through installation if the dependencies are not cross-platform, or worse, if they haven’t been specified. Deep learning practice can be even more challenging: local installation is hard because the models may not even fit in local memory. In the remainder of this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just 30 minutes!</p>
+<h2 id="Walkthrough-of-Validating-CheXpert-model-on-your-own-data"><a href="#Walkthrough-of-Validating-CheXpert-model-on-your-own-data" class="headerlink" title="Walkthrough of Validating CheXpert model on your own data"></a>Walkthrough of Validating CheXpert model on your own data</h2><p>*For this walkthrough, you don’t need any coding experience. You also don’t need any data: we’ll provide you data example we use for this walkthrough.</p>
+<p><strong>We had three of our colleagues go through this walkthrough, including two radiologists, and it took them 21.5 minutes on average.</strong></p>
+<p><strong>If you don’t have a dataset right now, <a href="https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing", target="_blank">download the data we’ve generated</a>, and skip to the <a href="#Running-the-CheXpert-model-on-your-data">next section</a>.</strong></p>
 <h3 id="How-to-Set-Up-Your-Data-Formatting-and-Organization"><a href="#How-to-Set-Up-Your-Data-Formatting-and-Organization" class="headerlink" title="How to Set Up Your Data: Formatting and Organization"></a>How to Set Up Your Data: Formatting and Organization</h3><p><em>If you’re coming in with your own data, this section will help you transform it to the right format.</em></p>
 <p>In this section, we’re going to get your data into a format that the algorithm expects. There will be three things we’ll need: a folder containing x-ray images, a file containing a list of images to be passed into the algorithm, and a file containing information about the ground truth for each of the studies.</p>
 <p>For the purposes of this walkthrough, we’ve compiled a dataset of google images of chest x-rays. We constructed this dataset of 96 images by googling for 5 pathologies (Cardiomegaly, Edema, Consolidation, Atelectasis, and Pleural Effusion) on Google Image search and also the Normal category. The first 16 image results judged to not have any annotations on them were chosen to be included. There was no verification of the ground truth performed; this is just a fun dataset that we can share for this tutorial.</p>
@@ -211,12 +212,12 @@
 <p><br></p>
 <h4 id="Recommendations-For-Setting-Up-Your-Data"><a href="#Recommendations-For-Setting-Up-Your-Data" class="headerlink" title="Recommendations For Setting Up Your Data"></a>Recommendations For Setting Up Your Data</h4><p><em>Ground Truth: Try to set as strong a ground truth as possible on your data. In our previous setups, we’ve used the majority vote of multiple radiologists as the ground truth; others use CT confirmations when possible. A strong ground truth sets the best possible assessment of the model on the data.</em><br><em>Sample size: Aim for as large a validation set as possible. We’ve used the heuristic that the prevalence for each of the pathologies be at least 30 studies.</em><br><em>Images:  We recommend that the input images be close to square, and grayscale (not color), and that images be smaller than 500x500, since the model will downsample them to 320x320 during training.</em></p>
 <p><br></p>
-<h3 id="Running-the-CheXpert-model-on-your-data"><a href="#Running-the-CheXpert-model-on-your-data" class="headerlink" title="Running the CheXpert model on your data"></a>Running the CheXpert model on your data</h3><p>We will now run through how you can run the CheXpert model we’ve pre-trained on Stanford data on the dataset you’ve prepared. <em>If you’re using our example data, now’s a good time to <a href="https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing">download it if you haven’t already</a>.</em> At the end of this section, you’ll be able to see the Area Under the Curve (AUC) metric of the model for the 5 tasks on your data (or the example data).</p>
+<h3 id="Running-the-CheXpert-model-on-your-data"><a href="#Running-the-CheXpert-model-on-your-data" class="headerlink" title="Running the CheXpert model on your data"></a>Running the CheXpert model on your data</h3><p>We will now run through how you can run the CheXpert model we’ve pre-trained on Stanford data on the dataset you’ve prepared. <em>If you’re using our example data, now’s a good time to <a href="https://drive.google.com/drive/folders/1WVKMv9NWwxg69XZcTtjJgdl9IdKkEJ8T?usp=sharing" target="_blank">download it if you haven’t already</a></em> At the end of this section, you’ll be able to see the Area Under the Curve (AUC) metric of the model for the 5 tasks on your data (or the example data).</p>
 <p><br><br><img src="/mlx/chexpert-validate/final.png" alt="The final output we'll work towards" title="The final output we'll work towards"><span class="image-caption">The final output we'll work towards</span><br><br></p>
 <h4 id="Creating-An-Account-on-Codalab"><a href="#Creating-An-Account-on-Codalab" class="headerlink" title="Creating An Account on Codalab."></a>Creating An Account on Codalab.</h4><p>We’ll be using the Codalab platform for running the model on your data. CodaLab is an online platform for collaborative and reproducible computational research, developed by Percy Liang at Stanford. The platform has an interface for running commands, using which you will upload your data and run the Chexpert model.</p>
 <p>First, we’ll create an account on Codalab:</p>
 <ol>
-<li>Go to <a href="http://worksheets.codalab.org">http://worksheets.codalab.org</a> and click “Sign Up” in the top-right corner.</li>
+<li>Go to <a href="http://worksheets.codalab.org/", target="_blank">Codalab Worksheets</a> and click “Sign Up” in the top-right corner.</li>
 <li>Fill out the subsequent form.</li>
 <li>A verification email will be sent to the email address you used to sign up. When you open it, there will be a link to follow in order to verify your account.</li>
 <li>After verifying your account, sign in again.</li>
@@ -249,11 +250,11 @@
 <p><em>If you see an error, please go back to the previous steps, and make sure that you haven’t missed any instructions.</em></p>
 <p><em>Optional: if you’re an advanced user looking for confidence intervals on the AUC or further statistical analysis, advanced users can download the prediction file by clicking on the ‘new_predictions’ row, and then clicking download on the sidebar.</em></p>
 <p><br><br><img src="/mlx/chexpert-validate/ready.png" alt="Running is completed" title="Running is completed"><span class="image-caption">Running is completed</span><br><br></p>
-<p>And that’s it! In just over an hour, we’ve been able to run the CheXpert model on your own data (or the example data)!</p>
+<p>And that’s it! You’ve just validated the CheXpert model on your own data (or the example data)!</p>
 <p><br></p>
 <h1 id="Join-us-in-a-worldwide-effort"><a href="#Join-us-in-a-worldwide-effort" class="headerlink" title="Join us in a worldwide effort"></a>Join us in a worldwide effort</h1><p>If you’ve followed our tutorial and successfully validated CheXpert model on your own institution’s data (or data that’s not from our google image example), we’d love to know! Please let us know how CheXpert did on your population! We encourage you to publish, and to also join our efforts in compiling the performances of the model on data worldwide. Email us at:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pranavsr@stanford.edu, jirvin16@stanford.edu, mlungren@stanford.edu </div></pre></td></tr></table></figure></p>
 <p><br></p>
-<h4 id="Acknowledgements"><a href="#Acknowledgements" class="headerlink" title="Acknowledgements"></a>Acknowledgements</h4><p>Thanks to our colleagues Nguyet Minh Phu and Mark Sabini for collecting and labeling the google images dataset we use in our example.</p>
+<h4 id="Acknowledgements"><a href="#Acknowledgements" class="headerlink" title="Acknowledgements"></a>Acknowledgements</h4><p>Thanks to our colleagues Nguyet Minh Phu and Mark Sabini for collecting and labeling the google images dataset we use in our example. Thank you to Amit Schecter, Anuj Pareek MD, and Evan Zucker MD for testing and timing the walkthrough.</p>
 
                 
                     
@@ -321,7 +322,7 @@
                     
 
 
-<a href="/mlx/tags/AI/">#AI</a> <a href="/mlx/tags/medicine/">#medicine</a> <a href="/mlx/tags/external-validation/">#external validation</a>
+<a href="/mlx/tags/AI/">#AI</a> <a href="/mlx/tags/medicine/">#medicine</a> <a href="/mlx/tags/external-validation/">#external validation</a> <a href="/mlx/tags/imaging/">#imaging</a> <a href="/mlx/tags/x-ray/">#x-ray</a>
 
 
                 
