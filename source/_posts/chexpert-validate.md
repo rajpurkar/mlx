@@ -7,7 +7,7 @@ tags:
   - x-ray
   - external validation
 subtitle: A Walkthrough For External Validation of Chest X-Ray Interpretation
-author: 'Pranav Rajpurkar, Jeremy Irvin, Matt Lungren, Curt Langlotz'
+author: 'Pranav Rajpurkar, Jeremy Irvin, Matt Lungren, Curt Langlotz, Percy Liang'
 date: 2019-07-15 22:52:44
 ---
 
@@ -21,7 +21,7 @@ In late 2017, using the [NIH’s Chest X-ray14 dataset](https://arxiv.org/abs/17
 
 Since we published our findings, there have been several groups attempting to reproduce our algorithms ([1](https://github.com/zoogzog/chexnet), [2](https://github.com/brucechou1983/CheXNet-Keras), [3](https://github.com/arnoweng/CheXNet), [4](https://medium.com/@jrzech/reproducing-chexnet-with-pytorch-695ff9c3bf66)), and validate them on their own datasets. This is an encouraging signal -- before chest x-ray interpretation algorithms can impact clinical care it is important that they be validated on data from other institutions, countries, and patient populations. Validation provides valuable information about the generalizability of the model to different settings, and informs settings in which further development is required for safe and effective use of algorithms.
 
-### Making it Easy for Everyone to Validate Our Models
+### Making it Easy for Everyone to Validate Our Models With the Help of Codalab.
 We set ourselves the **challenge of making it as easy as possible for everyone to use our chest x-ray algorithm for validation** on external data. Running an algorithm on a new dataset is traditionally a challenging and tedious task, usually requiring computer science expertise, and patience to work through a lot of installation setup. Computer science practitioners are well aware that even when the code is open-sourced, it takes a lot of trial and error to work through installation if the dependencies are not cross-platform, or worse, if they haven’t been specified. Deep learning practice can be even more challenging: local installation is hard because the models may not even fit in local memory. In the remainder of this post, we provide a walkthrough of how you can run a chest x-ray interpretation model on your own data without writing any code, in just 30 minutes!
 
 ## Walkthrough of Validating CheXpert model on your own data
