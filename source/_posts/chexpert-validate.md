@@ -174,7 +174,8 @@ Click on the 'new-run' row of the table on the left side of the page (see select
 
 We're going to give special attention to the 'state' of the run. This will start with 'preparing', and can take a few minutes as the remote machine downloads the CheXpert models.
 
-*If your run goes to 'staged', that means that a machine hasn't been found for you -- there are not enough compute resources available at the moment. In this case, a machine will be assigned to your run when one frees up (unfortunately, there's no heuristic for how long this would take to happen if there's a lot of requests).*
+*If your run goes to the 'staged' state, it means that the bundle is ready to run but it is waiting for appropriate resources to free up. CodaLab has a limited set of machines available (they're free!), so when there are a lot of people wanting to run jobs, you might have to wait a long time. You can check out the <a href="https://worksheets.codalab.org/worksheets/0xa590fd1b68944a1a95c1c40c4931dc7b/" target="_blank">Codalab status page</a> to see where your jobs are in the queue (note that this page only sees public jobs, so there might be hidden bundles in the queue that you can't see). If
+you'd like to run your job earlier, you can easily <a href="https://github.com/codalab/codalab-worksheets/wiki/Execution#running-your-own-worker" target="_blank">attach your own compute workers</a>, which you might want to do anyway if you have fancier GPUs, say.*
 
 <br>
 {% asset_img check2.png Check the status %}
