@@ -243,7 +243,7 @@
 <p><br><br><img src="/mlx/chexpert-validate/check1.png" alt="Verify that a few files are appended to your worksheet" title="Verify that a few files are appended to your worksheet"><span class="image-caption">Verify that a few files are appended to your worksheet</span><br><br></p>
 <p>Click on the ‘new-run’ row of the table on the left side of the page (see selection in figure below). The sidebar should change, and now display information about the status of the model’s run on the data.</p>
 <p>We’re going to give special attention to the ‘state’ of the run. This will start with ‘preparing’, and can take a few minutes as the remote machine downloads the CheXpert models.</p>
-<p><em>If your run goes to ‘staged’, that means that a machine hasn’t been found for you – there are not enough compute resources available at the moment. In this case, a machine will be assigned to your run when one frees up (unfortunately, there’s no heuristic for how long this would take to happen if there’s a lot of requests).</em></p>
+<p><em>If your run goes to the ‘staged’ state, it means that the bundle is ready to run but it is waiting for appropriate resources to free up. CodaLab has a limited set of machines available (they’re free!), so when there are a lot of people wanting to run jobs, you might have to wait a long time. You can check out the <a href="https://worksheets.codalab.org/worksheets/0xa590fd1b68944a1a95c1c40c4931dc7b/" target="_blank">Codalab status page</a> to see where your jobs are in the queue (note that this page only sees public jobs, so there might be hidden bundles in the queue that you can’t see). If<br>you’d like to run your job earlier, you can easily <a href="https://github.com/codalab/codalab-worksheets/wiki/Execution#running-your-own-worker" target="_blank">attach your own compute workers</a>, which you might want to do anyway if you have fancier GPUs, say.</em></p>
 <p><br><br><img src="/mlx/chexpert-validate/check2.png" alt="Check the status" title="Check the status"><span class="image-caption">Check the status</span><br><br></p>
 <p>Soon, the status of the run should update to ‘running’. Now the model has been loaded on to a machine, and predictions are being made on the uploaded dataset. This takes 10 minutes for us using the example dataset, and will take longer on a larger dataset. <em>Note that the Chexpert model is not one model, but a collection of 30 specialist models, which must each be sequentially run on the data.</em></p>
 <p><br><br><img src="/mlx/chexpert-validate/check3.png" alt="Check the status again" title="Check the status again"><span class="image-caption">Check the status again</span><br><br></p>
@@ -323,7 +323,7 @@
                     
 
 
-<a href="/mlx/tags/AI/">#AI</a> <a href="/mlx/tags/medicine/">#medicine</a> <a href="/mlx/tags/external-validation/">#external validation</a> <a href="/mlx/tags/imaging/">#imaging</a> <a href="/mlx/tags/x-ray/">#x-ray</a>
+<a href="/mlx/tags/AI/">#AI</a> <a href="/mlx/tags/medicine/">#medicine</a> <a href="/mlx/tags/external-validation/">#external validation</a> <a href="/mlx/tags/x-ray/">#x-ray</a> <a href="/mlx/tags/imaging/">#imaging</a>
 
 
                 
