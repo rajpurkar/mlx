@@ -36,7 +36,7 @@ We set ourselves the **challenge of making it as easy as possible for everyone t
 
 In this section, we're going to get your data into a format that the algorithm expects. There will be three things we'll need: a folder containing x-ray images, a file containing a list of images to be passed into the algorithm, and a file containing information about the ground truth for each of the studies.
 
-For the purposes of this walkthrough, we've compiled a dataset of google images of chest x-rays. We constructed this dataset of 96 images by googling for 5 pathologies (Cardiomegaly, Edema, Consolidation, Atelectasis, and Pleural Effusion) on Google Image search and also the Normal category. The first 16 image results judged to not have any annotations on them were chosen to be included. There was no verification of the ground truth performed; this is just a fun dataset that we can share for this tutorial.
+For the purposes of this walkthrough, we've compiled a dataset of google images of chest x-rays. We constructed this dataset of 96 images by googling for 5 pathologies (Cardiomegaly, Edema, Consolidation, Atelectasis, and Pleural Effusion) on Google Image search and also the Normal category. The first 16 image results judged to not have any annotations on them were chosen to be included, and converted to grayscale. There was no verification of the ground truth performed; this is just a fun dataset that we can share for this tutorial.
 
 <br>
 
@@ -86,7 +86,7 @@ This CSV file should be saved with the name 'ground_truths.csv'.
 #### Recommendations For Setting Up Your Data
 *Ground Truth: Try to set as strong a ground truth as possible on your data. In our previous setups, we've used the majority vote of multiple radiologists as the ground truth; others use CT confirmations when possible. A strong ground truth sets the best possible assessment of the model on the data.*
 *Sample size: Aim for as large a validation set as possible. We've used the heuristic that the prevalence for each of the pathologies be at least 30 studies.*
-*Images:  We recommend that the input images be close to square, and grayscale (not color), and that images be smaller than 500x500, since the model will downsample them to 320x320 during training.*
+*Images:  We recommend that the input images be close to square, and grayscale (the r,g, and b values should be the same), and that images be smaller than 500x500, since the model will downsample them to 320x320 during training.*
 
 
 <br>
