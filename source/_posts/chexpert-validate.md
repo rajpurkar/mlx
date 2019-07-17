@@ -8,7 +8,7 @@ tags:
   - external validation
 subtitle: A Walkthrough For External Validation of Chest X-Ray Interpretation
 author: 'Pranav Rajpurkar, Jeremy Irvin, Matt Lungren, Curt Langlotz, Percy Liang'
-date: 2019-07-15 22:52:44
+date: 2019-07-17 05:00:00
 ---
 
 
