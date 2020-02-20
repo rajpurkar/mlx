@@ -67,7 +67,7 @@ We first assess human performance on SQuAD. To evaluate human performance, we tr
 
 {% asset_img human-performance.png Human Performance %}
 
-To compare the performance of machines with the performance of humans, we implemented a few baselines. Our first baseline is a sliding window baseline, in we extract a large number of possible answer candidates from the passage, and then match a bag of words constructed from the question and candidate answer to the text to rank them. Using this baseline, we get an F1 score of 20.
+To compare the performance of machines with the performance of humans, we implemented a few baselines. Our first baseline is a sliding window baseline, in which we extract a large number of possible answer candidates from the passage, and then match a bag of words constructed from the question and candidate answer to the text to rank them. Using this baseline, we get an F1 score of 20.
 
 Compared with human performance on SQuAD, machines seem like a really long way with this baseline. But we haven’t yet incorporated any learning into our system. And we expect with a large dataset, learning can do well.
 
